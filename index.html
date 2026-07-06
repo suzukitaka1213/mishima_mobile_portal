@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
+<title>MISHIMA MOBILE</title>
+<meta name="theme-color" content="#071426"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="MISHIMA"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="icon" type="image/png" sizes="192x192" href="./mishima-mobile-icon-192.png"/>
+<link rel="apple-touch-icon" href="./apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,900&family=Barlow:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2244;--white:#fff;--bg:#f5f7ff;
+  --blue:#2563eb;--blue2:#1d4ed8;--cyan:#06b6d4;
+  --orange:#f97316;--green:#16a34a;--red:#dc2626;
+  --pink:#ec4899;--purple:#7c3aed;--yellow:#eab308;
+  --gray:#64748b;--border:#e2e8f0;--card:#fff;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;overflow-x:hidden;padding-top:env(safe-area-inset-top)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:all}
+
+/* SIDE MENU */
+.sidemenu{position:fixed;top:0;left:0;bottom:0;width:270px;background:var(--navy);z-index:300;transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.sidemenu.open{transform:translateX(0)}
+.sm-hd{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between}
+.sm-logo{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;font-style:italic;color:#fff}
+.sm-logo em{color:var(--cyan);font-style:normal}
+.sm-close{width:28px;height:28px;display:grid;place-items:center;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer}
+.sm-nav{flex:1;padding:8px 0;overflow-y:auto}
+.sm-item{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,.6);transition:all .2s;cursor:pointer;border-left:3px solid transparent}
+.sm-item:hover{color:#fff;background:rgba(255,255,255,.05);border-left-color:var(--cyan)}
+.sm-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sm-name{font-size:12px;font-weight:700}
+.sm-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:8px;color:rgba(255,255,255,.2);letter-spacing:.15em;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:6px}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;flex-shrink:0}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:var(--navy);display:grid;grid-template-columns:56px 1fr auto;width:100%}
+.hd-burger{display:grid;place-items:center;border-right:1px solid rgba(255,255,255,.08);cursor:pointer;min-height:56px;transition:background .2s}
+.hd-burger:hover{background:rgba(255,255,255,.05)}
+.burger-icon{display:flex;flex-direction:column;gap:5px}
+.burger-icon span{display:block;width:19px;height:2px;background:rgba(255,255,255,.8)}
+.hd-logo-wrap{padding:0 14px;display:flex;align-items:center}
+.hd-logo{font-family:'Barlow Condensed',sans-serif;font-size:clamp(13px,3vw,20px);font-weight:900;font-style:italic;color:#fff;white-space:nowrap}
+.hd-logo em{color:var(--cyan);font-style:normal}
+.hd-right{display:flex;align-items:center;padding:0 12px;gap:8px;border-left:1px solid rgba(255,255,255,.08)}
+#hd-time{font-size:clamp(11px,2vw,17px);font-weight:900;font-family:'DM Mono',monospace;color:#fff;white-space:nowrap}
+#hd-date{font-size:7px;font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap;font-family:'DM Mono',monospace}
+.hd-live{display:flex;align-items:center;gap:4px;font-size:7px;font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap}
+
+/* HERO */
+.hero{background:var(--navy);padding:32px 22px 40px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:200px}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none}
+.orb1{width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,.15),transparent 70%);top:-150px;right:-100px}
+.orb2{width:300px;height:300px;background:radial-gradient(circle,rgba(249,115,22,.1),transparent 70%);bottom:-80px;left:10%}
+.hero-left{position:relative;z-index:1;flex:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.3);padding:4px 10px;border-radius:20px;margin-bottom:12px}
+.hero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan)}
+.hero-badge-txt{font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase;font-family:'DM Mono',monospace}
+.hero-h{font-family:'Barlow Condensed',sans-serif;font-size:clamp(46px,9vw,96px);font-weight:900;font-style:italic;line-height:.86;color:#fff;text-transform:uppercase;margin-bottom:12px}
+.hero-h span{display:block;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.25)}
+.hero-h em{color:var(--cyan);-webkit-text-stroke:0;font-style:normal}
+.hero-date{font-size:9px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.3);text-transform:uppercase;font-family:'DM Mono',monospace;border-left:3px solid var(--orange);padding-left:10px}
+.hero-right{position:relative;z-index:1;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.hero-stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:10px 13px;text-align:center;border-radius:12px}
+.hero-stat-n{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;color:var(--cyan);line-height:1}
+.hero-stat-l{font-size:7px;font-weight:700;letter-spacing:.15em;color:rgba(255,255,255,.3);text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:2px}
+
+/* NAV TABS */
+.nav-tabs{background:#fff;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.nav-tabs::-webkit-scrollbar{display:none}
+.ntab{padding:12px 18px;font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gray);cursor:pointer;white-space:nowrap;position:relative;transition:all .2s;border-bottom:3px solid transparent;flex-shrink:0}
+.ntab:hover{color:var(--navy);background:#f8faff}
+.ntab.active{color:var(--blue);border-bottom-color:var(--blue);background:#f0f6ff}
+
+/* MAIN */
+main{padding:14px;display:flex;flex-direction:column;gap:12px}
+.page-section{display:none}
+.page-section.active{display:flex;flex-direction:column;gap:12px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.card-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#f8faff,#fff)}
+.card-hdr-left{display:flex;align-items:center;gap:10px}
+.card-icon{font-size:20px}
+.card-title{font-size:15px;font-weight:900;color:var(--navy)}
+.card-sub{font-size:8px;font-weight:700;letter-spacing:.15em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:2px}
+
+/* BRAND CATEGORY (like portal) */
+.brand-section{border-radius:16px;overflow:hidden;border:2px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.brand-hdr{padding:0 18px;display:flex;align-items:center;justify-content:space-between;min-height:80px;border-top:4px solid var(--accent);position:relative;overflow:hidden;cursor:pointer;transition:background .2s}
+.brand-hdr:hover{filter:brightness(.97)}
+.brand-bg-num{position:absolute;left:-8px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-size:100px;font-weight:900;font-style:italic;letter-spacing:-.06em;line-height:1;pointer-events:none;z-index:0;color:rgba(0,0,0,.04)}
+.brand-hdr-inner{position:relative;z-index:1;display:flex;align-items:center;gap:14px;flex:1}
+.brand-sq{width:48px;height:48px;display:grid;place-items:center;flex-shrink:0;border-radius:10px;background:var(--accent)}
+.brand-sq-txt{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1}
+.brand-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;line-height:1;color:var(--navy)}
+.brand-eye{font-size:7px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;font-family:'DM Mono',monospace;color:var(--accent);margin-bottom:3px}
+.brand-right{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.brand-network{font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace}
+.brand-toggle{display:none}
+.brand-body{display:block;background:#fff}
+
+/* PLAN TABLE inside brand */
+.plan-wrap{overflow-x:auto}
+.plan-table{width:100%;border-collapse:collapse;min-width:700px}
+.plan-table th{padding:8px 12px;font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:1px solid var(--border);background:#fafbff;text-align:left}
+.plan-table td{padding:10px 12px;font-size:11px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.plan-table tr:hover td{background:#fafbff}
+.plan-table tr:last-child td{border-bottom:none}
+.plan-brand-cell{font-weight:800;font-size:12px;color:var(--navy)}
+.plan-name-sm{font-size:9px;color:var(--gray);margin-top:1px}
+.plan-price-big{font-family:'DM Mono',monospace;font-weight:900;font-size:14px;color:var(--blue)}
+.plan-price-sm{font-size:8px;color:var(--gray)}
+.badge{display:inline-flex;align-items:center;font-size:7px;font-weight:700;letter-spacing:.08em;padding:2px 7px;border-radius:20px;text-transform:uppercase;font-family:'Barlow',sans-serif;white-space:nowrap}
+.net-d{background:#fee2e2;color:#991b1b}
+.net-a{background:#ffedd5;color:#9a3412}
+.net-s{background:#dbeafe;color:#1e40af}
+.net-r{background:#ffe4e6;color:#9f1239}
+.net-m{background:#ede9fe;color:#4c1d95}
+.tag-shop{background:#bfdbfe;color:#1e3a8a}
+.tag-fam{background:#bbf7d0;color:#14532d}
+.tag-fiber{background:#fde68a;color:#78350f}
+.tag-cheap{background:#d1fae5;color:#065f46}
+.tag-pop{background:#fef9c3;color:#92400e}
+.tag-line{background:#dcfce7;color:#166534}
+.tag-call{background:#fce7f3;color:#9d174d}
+
+/* BTNS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 13px;border-radius:8px;font-size:10px;font-weight:700;letter-spacing:.06em;cursor:pointer;border:none;font-family:'Barlow',sans-serif;transition:all .18s;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue2)}
+.btn-outline{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:#ea6500}
+.btn-sm{padding:5px 10px;font-size:9px}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:#15803d}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#b91c1c}
+.btn-cyan{background:var(--cyan);color:#fff}
+.btn-cyan:hover{background:#0891b2}
+
+/* COMPARE SELECTION */
+.compare-bar{background:linear-gradient(135deg,#fff7ed,#fff);border:2px solid #fed7aa;border-radius:12px;padding:12px 16px;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.compare-bar-label{font-size:9px;font-weight:700;color:#c2410c;font-family:'DM Mono',monospace;flex-shrink:0}
+.compare-items{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.compare-chip{display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #fed7aa;border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--navy)}
+.compare-chip-rm{cursor:pointer;color:var(--red);font-size:12px}
+
+/* MULTI COMPARE */
+.multi-compare{overflow-x:auto;padding:14px}
+.multi-grid{display:flex;gap:10px;min-width:min-content}
+.mc-card{min-width:210px;flex:1;border:2px solid var(--border);border-radius:12px;overflow:hidden;position:relative}
+.mc-hdr{padding:14px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f8faff,#fff)}
+.mc-brand{font-size:14px;font-weight:900;color:var(--navy);margin-bottom:2px}
+.mc-plan{font-size:9px;color:var(--gray)}
+.mc-price{font-family:'DM Mono',monospace;font-size:20px;font-weight:900;color:var(--blue);margin-top:8px}
+.mc-price small{font-size:10px;font-weight:400;color:var(--gray)}
+.mc-body{padding:12px 14px;display:flex;flex-direction:column;gap:7px}
+.mc-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;font-size:10px;padding-bottom:6px;border-bottom:1px solid #f1f5f9}
+.mc-row:last-child{border-bottom:none;padding-bottom:0}
+.mc-key{color:var(--gray);font-weight:600;flex-shrink:0;min-width:65px}
+.mc-val{color:var(--navy);font-weight:700;text-align:right}
+.mc-footer{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap}
+.mc-label-best{position:absolute;top:0;right:0;font-size:7px;font-weight:700;background:var(--orange);color:#fff;padding:3px 8px;border-radius:0 10px 0 8px;text-transform:uppercase}
+.mc-label-big{position:absolute;top:0;right:0;font-size:7px;font-weight:700;background:var(--blue);color:#fff;padding:3px 8px;border-radius:0 10px 0 8px;text-transform:uppercase}
+
+/* FILTER BAR */
+.filter-bar{padding:12px 16px;border-bottom:1px solid var(--border);background:#fafbff;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-label{font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;flex-shrink:0}
+.filter-select{padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:11px;font-family:'Barlow',sans-serif;color:var(--navy);background:#fff;outline:none;cursor:pointer}
+.filter-select:focus{border-color:var(--blue)}
+.filter-input{padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:11px;font-family:'Barlow',sans-serif;color:var(--navy);background:#fff;outline:none;width:170px}
+.filter-input:focus{border-color:var(--blue)}
+
+/* FORM */
+.form-body{padding:16px}
+.form-section-label{font-size:8px;font-weight:700;letter-spacing:.22em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:10px;border-left:3px solid var(--blue);padding-left:8px}
+.form-group{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:16px}
+.form-field{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:10px;font-weight:700;color:var(--navy)}
+.form-input{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Barlow',sans-serif;color:var(--navy);background:#fff;outline:none;transition:border-color .2s;width:100%}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Barlow',sans-serif;color:var(--navy);background:#fff;outline:none;transition:border-color .2s;width:100%;cursor:pointer}
+.form-select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-textarea{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Barlow',sans-serif;color:var(--navy);background:#fff;outline:none;transition:border-color .2s;width:100%;resize:vertical;min-height:60px}
+.form-textarea:focus{border-color:var(--blue)}
+
+/* SUMMARY */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px}
+.sum-card{border-radius:12px;padding:14px;text-align:center;border:2px solid var(--border);background:linear-gradient(135deg,#f8faff,#fff)}
+.sum-card.save{background:linear-gradient(135deg,#f0fdf4,#fff);border-color:#86efac}
+.sum-card.loss{background:linear-gradient(135deg,#fff1f2,#fff);border-color:#fca5a5}
+.sum-label{font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:6px}
+.sum-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:900;line-height:1}
+.sum-val.green{color:var(--green)}
+.sum-val.red{color:var(--red)}
+.sum-val.blue{color:var(--blue)}
+.sum-sub{font-size:9px;color:var(--gray);margin-top:3px}
+
+/* COMPARE TABLE */
+.cmp-wrap{padding:14px;overflow-x:auto}
+.cmp-table{width:100%;border-collapse:collapse;min-width:460px}
+.cmp-table th{padding:9px 13px;font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:2px solid var(--border);text-align:left}
+.cmp-table th.cur{background:#eff6ff;color:var(--blue)}
+.cmp-table th.aft{background:#f0fdf4;color:var(--green)}
+.cmp-table td{padding:9px 13px;font-size:11px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.cmp-table td.cur{background:#fafeff}
+.cmp-table td.aft{background:#fafff8}
+.cmp-table .row-lbl{font-size:9px;font-weight:700;color:var(--gray);background:#f8fafc!important}
+.cmp-table tr:last-child td{border-bottom:none}
+.td-num{font-family:'DM Mono',monospace;font-weight:700;font-size:13px}
+.td-g{color:var(--green);font-weight:700}
+.td-r{color:var(--red);font-weight:700}
+
+/* COMMENTS */
+.comment-list{padding:12px 16px;display:flex;flex-direction:column;gap:7px}
+.cmmt{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;border-radius:10px;font-size:11px;line-height:1.6}
+.cmmt.good{background:#f0fdf4;border-left:3px solid var(--green)}
+.cmmt.warn{background:#fff7ed;border-left:3px solid var(--orange)}
+.cmmt.bad{background:#fff1f2;border-left:3px solid var(--red)}
+.cmmt-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+
+/* DIAGNOSIS */
+.diag-form{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px}
+.diag-result{padding:14px;display:flex;flex-direction:column;gap:10px}
+.diag-card{border:2px solid var(--border);border-radius:14px;overflow:hidden;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.diag-rank{position:absolute;top:0;left:0;width:42px;height:42px;display:grid;place-items:center;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#fff;border-radius:0 0 10px 0}
+.rank-1{background:linear-gradient(135deg,#f97316,#fbbf24)}
+.rank-2{background:linear-gradient(135deg,#2563eb,#06b6d4)}
+.rank-3{background:linear-gradient(135deg,#64748b,#94a3b8)}
+.rank-4,.rank-5{background:#94a3b8}
+.diag-body{padding:14px 14px 14px 58px}
+.diag-brand{font-size:15px;font-weight:900;color:var(--navy)}
+.diag-plan{font-size:9px;color:var(--gray);margin-bottom:5px}
+.diag-price{font-family:'DM Mono',monospace;font-size:20px;font-weight:900;color:var(--blue)}
+.diag-reason{font-size:10px;color:#4a6080;line-height:1.6;margin-top:6px;padding:8px 10px;background:#f8faff;border-radius:8px}
+.diag-match{display:inline-block;font-size:8px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;font-family:'Barlow',sans-serif;margin-top:5px}
+.match-best{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#92400e}
+.match-good{background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#065f46}
+.match-ok{background:#ffe4e6;color:#9f1239}
+.diag-footer{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap;background:#fafbff}
+
+/* ADMIN */
+.admin-lock{padding:36px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.admin-lock-icon{font-size:44px}
+.admin-lock-title{font-size:17px;font-weight:900;color:var(--navy)}
+.admin-lock-wrap{display:flex;border:2px solid var(--border);border-radius:10px;overflow:hidden;width:min(300px,100%)}
+.admin-lock-input{flex:1;padding:10px 13px;font-size:13px;font-family:'DM Mono',monospace;color:var(--navy);border:none;outline:none}
+.admin-lock-btn{padding:10px 16px;background:var(--navy);color:#fff;font-size:9px;font-weight:700;cursor:pointer;border:none;font-family:'Barlow',sans-serif;white-space:nowrap}
+.admin-lock-err{font-size:10px;color:var(--red);font-weight:700;opacity:0;transition:opacity .2s}
+.admin-lock-err.show{opacity:1}
+.admin-body{padding:14px;display:flex;flex-direction:column;gap:12px}
+.edit-item{border:2px solid var(--border);border-radius:12px;overflow:hidden}
+.edit-hdr{padding:12px 15px;background:#fafbff;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:8px}
+.edit-hdr-info{display:flex;flex-direction:column;gap:2px}
+.edit-brand{font-size:13px;font-weight:800;color:var(--navy)}
+.edit-meta{font-size:9px;color:var(--gray);font-family:'DM Mono',monospace}
+.edit-body{display:none;padding:14px;border-top:1px solid var(--border)}
+.edit-body.open{display:block}
+.edit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.edit-actions{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+
+/* NOTICE */
+.notice{background:linear-gradient(135deg,#fffbeb,#fff);border:1.5px solid #fde68a;border-radius:10px;padding:10px 14px;font-size:10px;color:#92400e;line-height:1.6;display:flex;gap:8px;align-items:flex-start}
+
+@media(max-width:480px){
+  .hero{padding:22px 14px 30px;flex-direction:column;align-items:flex-start}
+  .hero-right{flex-direction:row}
+  main{padding:10px}
+  .form-group{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+<nav class="sidemenu" id="sidemenu">
+  <div class="sm-hd"><div class="sm-logo">MISHIMA <em>MOBILE</em></div><div class="sm-close" id="sm-close">✕</div></div>
+  <div class="sm-nav">
+    <div class="sm-item" onclick="showTab(0);closeMenu()"><span class="sm-dot" style="background:#22c55e"></span><span class="sm-name">主要プラン比較表</span></div>
+    <div class="sm-item" onclick="showTab(1);closeMenu()"><span class="sm-dot" style="background:var(--orange)"></span><span class="sm-name">おすすめプラン診断</span></div>
+    <div class="sm-item" onclick="showTab(2);closeMenu()"><span class="sm-dot" style="background:var(--blue)"></span><span class="sm-name">料金見直しシート</span></div>
+    <div class="sm-item" onclick="showTab(3);closeMenu()"><span class="sm-dot" style="background:var(--gray)"></span><span class="sm-name">プランデータ編集</span></div>
+  </div>
+  <div class="sm-footer"><span class="live-dot"></span>Mishima Mobile — Guide</div>
+</nav>
+<header>
+  <div class="hd-burger" id="burger"><div class="burger-icon"><span></span><span></span><span></span></div></div>
+  <div class="hd-logo-wrap"><div class="hd-logo">MISHIMA <em>MOBILE</em></div></div>
+  <div class="hd-right">
+    <div><div id="hd-time">--:--</div><div id="hd-date">---</div></div>
+    <div class="hd-live"><span class="live-dot"></span>Live</div>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-orb orb1"></div><div class="hero-orb orb2"></div>
+  <div class="hero-left">
+    <div class="hero-badge"><span class="hero-badge-dot"></span><span class="hero-badge-txt">Mobile Plan Guide</span></div>
+    <h1 class="hero-h">MISHIMA<span>MO<em>BILE.</em></span></h1>
+    <div class="hero-date">// 2026年7月時点の情報です</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat"><div class="hero-stat-n">14</div><div class="hero-stat-l">Brands</div></div>
+    <div class="hero-stat"><div class="hero-stat-n">¥0〜</div><div class="hero-stat-l">Monthly</div></div>
+  </div>
+</section>
+<div class="nav-tabs" id="nav-tabs">
+  <div class="ntab active" onclick="showTab(0)">📊 主要プラン比較表</div>
+  <div class="ntab" onclick="showTab(1)">💡 おすすめ診断</div>
+  <div class="ntab" onclick="showTab(2)">📋 料金見直しシート</div>
+  <div class="ntab" onclick="showTab(3)">⚙️ プランデータ編集</div>
+</div>
+<main>
+
+<!-- ══════ TAB0: 主要プラン比較表 ══════ -->
+<div class="page-section active" id="tab0">
+  <div class="notice">ℹ️ 料金・条件は2026年7月時点の参考情報です。最終確認は各社公式サイトで行ってください。</div>
+  <div class="compare-bar" id="compare-bar">
+    <div class="compare-bar-label">🔍 比較中</div>
+    <div class="compare-items" id="compare-items"><span style="font-size:10px;color:#c2410c;opacity:.6">プランを選択してください（最大3件）</span></div>
+    <button class="btn btn-orange btn-sm" onclick="doMultiCompare()">比較する ▶</button>
+    <button class="btn btn-outline btn-sm" onclick="clearCompare()">クリア</button>
+  </div>
+  <div class="card">
+    <div class="filter-bar">
+      <span class="filter-label">絞り込み</span>
+      <input class="filter-input" id="plan-search" placeholder="ブランド・プラン名..." oninput="filterPlans()"/>
+      <select class="filter-select" id="f-data" onchange="filterPlans()">
+        <option value="">データ量：すべて</option>
+        <option value="3">〜3GB</option><option value="10">〜10GB</option>
+        <option value="20">〜20GB</option><option value="30">20GB〜</option><option value="99">無制限・大容量</option>
+      </select>
+      <select class="filter-select" id="f-net" onchange="filterPlans()">
+        <option value="">回線：すべて</option>
+        <option value="d">docomo</option><option value="a">au</option>
+        <option value="s">SoftBank</option><option value="r">楽天</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="resetFilter()">リセット</button>
+    </div>
+    <div id="brand-sections"></div>
+  </div>
+  <div class="card" id="multi-result" style="display:none">
+    <div class="card-hdr">
+      <div class="card-hdr-left"><div class="card-icon">⚖️</div><div><div class="card-title">プラン比較</div><div class="card-sub">Side by Side</div></div></div>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('multi-result').style.display='none'">閉じる</button>
+    </div>
+    <div class="multi-compare" id="multi-body"></div>
+  </div>
+</div>
+
+<!-- ══════ TAB1: おすすめ診断 ══════ -->
+<div class="page-section" id="tab1">
+  <div class="notice">ℹ️ 診断結果は入力条件に基づく目安です。実際の契約前に各社公式サイトでご確認ください。</div>
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-left"><div class="card-icon">💡</div><div><div class="card-title">おすすめプラン診断</div><div class="card-sub">Plan Diagnosis</div></div></div></div>
+    <div class="diag-form">
+      <div class="form-field"><label class="form-label">月間データ使用量</label>
+        <select class="form-select" id="d_data"><option value="1">〜1GB</option><option value="3">〜3GB</option><option value="5">〜5GB</option><option value="10">〜10GB</option><option value="20" selected>〜20GB</option><option value="30">〜30GB</option><option value="50">30GB以上</option><option value="999">無制限希望</option></select></div>
+      <div class="form-field"><label class="form-label">通話の利用状況</label>
+        <select class="form-select" id="d_call"><option value="none">ほとんど使わない</option><option value="5min">5分以内が多い</option><option value="10min">10分以内が多い</option><option value="unlimited">かけ放題が必要</option></select></div>
+      <div class="form-field"><label class="form-label">希望回線</label>
+        <select class="form-select" id="d_net"><option value="any">こだわらない</option><option value="d">docomo回線</option><option value="a">au回線</option><option value="s">SoftBank回線</option><option value="r">楽天回線</option></select></div>
+      <div class="form-field"><label class="form-label">店舗サポート</label>
+        <select class="form-select" id="d_shop"><option value="any">どちらでもよい</option><option value="need">必要</option><option value="noneed">不要</option></select></div>
+      <div class="form-field"><label class="form-label">家族割</label>
+        <select class="form-select" id="d_fam"><option value="any">わからない</option><option value="yes">重視する</option><option value="no">重視しない</option></select></div>
+      <div class="form-field"><label class="form-label">光回線セット割</label>
+        <select class="form-select" id="d_fiber"><option value="any">わからない</option><option value="yes">使いたい</option><option value="no">使わない</option></select></div>
+      <div class="form-field"><label class="form-label">月額料金の希望</label>
+        <select class="form-select" id="d_price"><option value="cheap">とにかく安く</option><option value="balance" selected>バランス重視</option><option value="quality">少し高くても安心</option></select></div>
+      <div class="form-field"><label class="form-label">オンライン手続き</label>
+        <select class="form-select" id="d_online"><option value="ok">問題ない</option><option value="ng">苦手</option><option value="any">どちらでもよい</option></select></div>
+    </div>
+    <div style="padding:0 16px 16px;display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="diagnose()">診断する 🔍</button>
+      <button class="btn btn-outline" onclick="document.getElementById('diag-result').innerHTML=''">リセット</button>
+    </div>
+    <div class="diag-result" id="diag-result"></div>
+  </div>
+</div>
+
+<!-- ══════ TAB2: 料金見直しシート ══════ -->
+<div class="page-section" id="tab2">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-hdr-left"><div class="card-icon">📱</div><div><div class="card-title">現在のプラン</div><div class="card-sub">Current Plan</div></div></div>
+      <button class="btn btn-outline btn-sm" onclick="resetCurrent()">リセット</button>
+    </div>
+    <div class="form-body">
+      <div class="form-section-label">基本情報</div>
+      <div class="form-group" style="margin-bottom:14px">
+        <div class="form-field"><label class="form-label">現在の携帯会社</label>
+          <select class="form-select" id="c_carrier" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>NTTドコモ</option><option>au</option><option>SoftBank</option>
+            <option>楽天モバイル</option><option>ahamo</option><option>povo</option>
+            <option>LINEMO</option><option>UQ mobile</option><option>Y!mobile</option>
+            <option>IIJmio</option><option>mineo</option><option>日本通信SIM</option>
+            <option>NUROモバイル</option><option>LIBMO</option><option>その他</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label">現在のプラン名</label><input class="form-input" id="c_plan" placeholder="例：ドコモMAX" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">月間データ容量</label>
+          <select class="form-select" id="c_data" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>1GB</option><option>3GB</option><option>5GB</option><option>8GB</option>
+            <option>10GB</option><option>15GB</option><option>20GB</option><option>30GB</option>
+            <option>60GB</option><option>無制限</option><option>その他</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label">月間データ使用量</label>
+          <select class="form-select" id="c_data_use" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>1GB未満</option><option>1〜3GB</option><option>3〜5GB</option>
+            <option>5〜10GB</option><option>10〜20GB</option><option>20〜30GB</option><option>30GB以上</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-section-label">料金内訳（円）</div>
+      <div class="form-group" style="margin-bottom:14px">
+        <div class="form-field"><label class="form-label">月額基本料金</label><input class="form-input" id="c_base" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">通話オプション料金</label><input class="form-input" id="c_call_fee" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">端末分割代金</label><input class="form-input" id="c_device" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">その他オプション料金</label><input class="form-input" id="c_option" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">割引金額</label><input class="form-input" id="c_disc" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">毎月の合計請求額</label><input class="form-input" id="c_total" type="number" placeholder="0" oninput="calc()"/></div>
+      </div>
+      <div class="form-section-label">利用状況</div>
+      <div class="form-group">
+        <div class="form-field"><label class="form-label">通話の利用頻度</label>
+          <select class="form-select" id="c_callfreq" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>ほとんど使わない</option><option>5分以内が多い</option>
+            <option>10分以内が多い</option><option>頻繁に長電話する</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label">家族割の有無</label>
+          <select class="form-select" id="c_family" onchange="calc()">
+            <option value="">選択してください</option><option>あり</option><option>なし</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label">光回線セット割</label>
+          <select class="form-select" id="c_fiber" onchange="calc()">
+            <option value="">選択してください</option><option>あり</option><option>なし</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label">端末代の残債（円）</label><input class="form-input" id="c_debt" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field" style="grid-column:1/-1"><label class="form-label">現在の不満点</label><textarea class="form-textarea" id="c_complaint" placeholder="例：料金が高い、速度が遅い" oninput="calc()"></textarea></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-hdr-left"><div class="card-icon">✨</div><div><div class="card-title">見直し後プラン</div><div class="card-sub">After Plan</div></div></div>
+      <button class="btn btn-outline btn-sm" onclick="resetAfter()">リセット</button>
+    </div>
+    <div class="form-body">
+      <div class="form-section-label">基本情報</div>
+      <div class="form-group" style="margin-bottom:14px">
+        <div class="form-field"><label class="form-label">見直し後の携帯会社</label>
+          <select class="form-select" id="a_carrier" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>NTTドコモ</option><option>au</option><option>SoftBank</option>
+            <option>楽天モバイル</option><option>ahamo</option><option>povo</option>
+            <option>LINEMO</option><option>UQ mobile</option><option>Y!mobile</option>
+            <option>IIJmio</option><option>mineo</option><option>日本通信SIM</option>
+            <option>NUROモバイル</option><option>LIBMO</option><option>その他</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label">見直し後のプラン名</label><input class="form-input" id="a_plan" placeholder="例：ギガプラン 15GB" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">月間データ容量</label>
+          <select class="form-select" id="a_data" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>1GB</option><option>3GB</option><option>5GB</option><option>8GB</option>
+            <option>10GB</option><option>15GB</option><option>20GB</option><option>30GB</option>
+            <option>60GB</option><option>無制限</option><option>その他</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-section-label">料金内訳（円）</div>
+      <div class="form-group" style="margin-bottom:14px">
+        <div class="form-field"><label class="form-label">月額基本料金</label><input class="form-input" id="a_base" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">通話オプション料金</label><input class="form-input" id="a_call_fee" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">端末分割代金</label><input class="form-input" id="a_device" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">その他オプション料金</label><input class="form-input" id="a_option" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">割引金額</label><input class="form-input" id="a_disc" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">乗り換え時の初期費用</label><input class="form-input" id="a_init" type="number" placeholder="0" oninput="calc()"/></div>
+        <div class="form-field"><label class="form-label">キャンペーン割引</label><input class="form-input" id="a_campaign" type="number" placeholder="0" oninput="calc()"/></div>
+      </div>
+      <div class="form-section-label">プラン詳細</div>
+      <div class="form-group">
+        <div class="form-field"><label class="form-label">通話条件</label>
+          <select class="form-select" id="a_calltype" onchange="calc()">
+            <option value="">選択してください</option>
+            <option>従量課金（22円/30秒）</option><option>5分以内無料</option>
+            <option>10分以内無料</option><option>完全かけ放題</option><option>その他</option>
+          </select>
+        </div>
+        <div class="form-field" style="grid-column:1/-1"><label class="form-label">特徴・メモ</label><textarea class="form-textarea" id="a_note" placeholder="例：LINEギガフリー、海外利用可" oninput="calc()"></textarea></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-hdr-left"><div class="card-icon">📊</div><div><div class="card-title">比較結果・自動計算</div><div class="card-sub">Calculation Result</div></div></div>
+      <button class="btn btn-cyan btn-sm" onclick="window.print()">🖨 印刷</button>
+    </div>
+    <div class="summary-grid" id="summary-grid">
+      <div class="sum-card"><div class="sum-label">現在 月額</div><div class="sum-val blue" id="r_cur">¥—</div></div>
+      <div class="sum-card"><div class="sum-label">見直し後 月額</div><div class="sum-val blue" id="r_aft">¥—</div></div>
+      <div class="sum-card" id="r_diff_card"><div class="sum-label">月間差額</div><div class="sum-val" id="r_diff">¥—</div><div class="sum-sub" id="r_diff_lbl">—</div></div>
+      <div class="sum-card" id="r_year_card"><div class="sum-label">年間差額</div><div class="sum-val" id="r_year">¥—</div></div>
+      <div class="sum-card"><div class="sum-label">1年目差額（初期費込）</div><div class="sum-val blue" id="r_year1">¥—</div></div>
+      <div class="sum-card"><div class="sum-label">残債含む総額差</div><div class="sum-val blue" id="r_debt">¥—</div></div>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp-table">
+        <thead><tr><th>項目</th><th class="cur">現在のプラン</th><th class="aft">見直し後プラン</th></tr></thead>
+        <tbody>
+          <tr><td class="row-lbl">会社名</td><td class="cur" id="ct_c_carrier">—</td><td class="aft" id="ct_a_carrier">—</td></tr>
+          <tr><td class="row-lbl">プラン名</td><td class="cur" id="ct_c_plan">—</td><td class="aft" id="ct_a_plan">—</td></tr>
+          <tr><td class="row-lbl">データ容量</td><td class="cur" id="ct_c_data">—</td><td class="aft" id="ct_a_data">—</td></tr>
+          <tr><td class="row-lbl">基本料金</td><td class="cur" id="ct_c_base">—</td><td class="aft" id="ct_a_base">—</td></tr>
+          <tr><td class="row-lbl">通話オプション</td><td class="cur" id="ct_c_call">—</td><td class="aft" id="ct_a_call">—</td></tr>
+          <tr><td class="row-lbl">端末分割</td><td class="cur" id="ct_c_dev">—</td><td class="aft" id="ct_a_dev">—</td></tr>
+          <tr><td class="row-lbl">その他</td><td class="cur" id="ct_c_opt">—</td><td class="aft" id="ct_a_opt">—</td></tr>
+          <tr><td class="row-lbl">割引</td><td class="cur" id="ct_c_disc">—</td><td class="aft" id="ct_a_disc">—</td></tr>
+          <tr><td class="row-lbl" style="font-weight:900">合計月額</td><td class="cur" id="ct_c_tot" style="font-weight:900"></td><td class="aft" id="ct_a_tot" style="font-weight:900"></td></tr>
+          <tr><td class="row-lbl">年間総額</td><td class="cur" id="ct_c_yr">—</td><td class="aft" id="ct_a_yr">—</td></tr>
+          <tr><td class="row-lbl">通話条件</td><td class="cur" id="ct_c_callf">—</td><td class="aft" id="ct_a_callt">—</td></tr>
+          <tr><td class="row-lbl">メモ</td><td class="cur" id="ct_c_cmp">—</td><td class="aft" id="ct_a_note">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="comment-list" id="comment-list"></div>
+  </div>
+</div>
+
+<!-- ══════ TAB3: プランデータ編集 ══════ -->
+<div class="page-section" id="tab3">
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-left"><div class="card-icon">⚙️</div><div><div class="card-title">プランデータ編集</div><div class="card-sub">Admin — Password Required</div></div></div></div>
+    <div id="admin-lock-area" class="admin-lock">
+      <div class="admin-lock-icon">🔒</div>
+      <div class="admin-lock-title">管理者パスワードを入力してください</div>
+      <div class="admin-lock-wrap">
+        <input class="admin-lock-input" id="admin-pass" type="password" placeholder="パスワード" autocomplete="off" onkeydown="if(event.key==='Enter')adminUnlock()"/>
+        <button class="admin-lock-btn" onclick="adminUnlock()">解除</button>
+      </div>
+      <div class="admin-lock-err" id="admin-err">⚠ パスワードが違います</div>
+    </div>
+    <div id="admin-body" style="display:none">
+      <div class="admin-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="addNewPlan()">＋ プランを追加</button>
+          <button class="btn btn-red" onclick="resetToDefault()">⚠ 初期データに戻す</button>
+        </div>
+        <div id="admin-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+<footer style="background:var(--navy);padding:20px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;font-style:italic;color:#fff">MISHIMA <em style="color:var(--cyan);font-style:normal">MOBILE</em>.</div>
+    <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:3px;font-family:'DM Mono',monospace">Mobile Plan Guide — Mishima, JP</div>
+  </div>
+  <div style="font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,.2);text-align:right;line-height:1.8">2026年7月時点の情報<br><span style="color:rgba(255,255,255,.1)">// 料金は変更になる場合があります</span></div>
+</footer>
+
+<script>
+'use strict';
+const ADMIN_PASS='mishima1124';
+
+/* ══ ブランドカラー定義 ══ */
+const BRAND_COLORS={
+  'NTTドコモ':'#e34234','ahamo':'#e34234',
+  'au':'#f97316','povo':'#f97316','UQ mobile':'#f97316',
+  'SoftBank':'#06b6d4','LINEMO':'#06b6d4','Y!mobile':'#06b6d4',
+  '楽天モバイル':'#e60012',
+  'mineo':'#16a34a',
+  'IIJmio':'#e5e7eb','日本通信SIM':'#e5e7eb','NUROモバイル':'#e5e7eb','LIBMO':'#e5e7eb'
+};
+const BRAND_NET={
+  'NTTドコモ':'d','ahamo':'d','日本通信SIM':'d','IIJmio':'multi','mineo':'multi','LIBMO':'d','NUROモバイル':'multi',
+  'au':'a','povo':'a','UQ mobile':'a','SoftBank':'s','LINEMO':'s','Y!mobile':'s',
+  '楽天モバイル':'r'
+};
+const NET_LABEL={d:'docomo回線',a:'au回線',s:'SoftBank回線',r:'楽天回線',multi:'複数回線対応'};
+const NET_BADGE={d:'net-d',a:'net-a',s:'net-s',r:'net-r',multi:'net-m'};
+
+/* ══ プランデータ ══ */
+const DEFAULT_PLANS=[
+  // NTTドコモ
+  {brand:'NTTドコモ',plan:'ドコモMAX（3GB未満）',data:'〜3GB',dataValue:3,isUnlimited:false,price:4928,call:'22円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'最大¥1,100',hasFiberDiscount:true,fiberDiscount:'¥1,100',feature:'各種割引で大幅割引可。3GB未満の場合',recommendedFor:'家族でドコモ、店舗サポート重視',caution:'割引なしは高額',officialUrl:'https://www.docomo.ne.jp/charge/max/'},
+  {brand:'NTTドコモ',plan:'ドコモMAX（無制限）',data:'無制限',dataValue:999,isUnlimited:true,price:8228,call:'22円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'最大¥1,100',hasFiberDiscount:true,fiberDiscount:'¥1,100',feature:'無制限プラン。家族割・光割で月¥4,928〜',recommendedFor:'大容量利用、店舗サポート希望',caution:'割引組み合わせを事前確認',officialUrl:'https://www.docomo.ne.jp/charge/max/'},
+  {brand:'NTTドコモ',plan:'ドコモmini 4GB',data:'4GB',dataValue:4,isUnlimited:false,price:2750,call:'22円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'¥1,210',feature:'低容量向け最安。光割で¥1,540〜',recommendedFor:'データ使用量が少ないドコモユーザー',caution:'家族割対象外',officialUrl:'https://www.docomo.ne.jp/charge/mini/'},
+  {brand:'NTTドコモ',plan:'ドコモmini 10GB',data:'10GB',dataValue:10,isUnlimited:false,price:3850,call:'22円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'¥1,210',feature:'中容量プラン。光割で¥2,640〜',recommendedFor:'10GB前後のdocomoユーザー',caution:'家族割対象外',officialUrl:'https://www.docomo.ne.jp/charge/mini/'},
+  // ahamo
+  {brand:'ahamo',plan:'ahamo 30GB',data:'30GB',dataValue:30,isUnlimited:false,price:2970,call:'5分以内無料',callType:'5分以内',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'海外91カ国対応。+¥1,980で+80GB（大盛り）',recommendedFor:'オンラインOK、データ多用、海外利用が多い方',caution:'店頭サポートなし',officialUrl:'https://ahamo.com/'},
+  {brand:'ahamo',plan:'ahamo 大盛り 110GB',data:'110GB',dataValue:110,isUnlimited:false,price:4950,call:'5分以内無料',callType:'5分以内',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'ahamo+大盛りオプション。110GBで海外も対応',recommendedFor:'動画視聴・テザリングをよく使う方',caution:'店頭サポートなし',officialUrl:'https://ahamo.com/'},
+  // au
+  {brand:'au',plan:'使い放題MAX＋ 5G/4G',data:'無制限',dataValue:999,isUnlimited:true,price:7238,call:'22円/30秒',callType:'従量課金',networkCode:'a',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'最大¥1,210',hasFiberDiscount:true,fiberDiscount:'¥1,100',feature:'200GB超で5Mbps制限。エンタメセットプランあり',recommendedFor:'大容量利用、au経済圏の方',caution:'200GB超で速度制限',officialUrl:'https://www.au.com/mobile/charge/'},
+  {brand:'au',plan:'スマホミニプラン＋ 5G/4G',data:'〜4GB',dataValue:4,isUnlimited:false,price:2398,call:'22円/30秒',callType:'従量課金',networkCode:'a',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'割引あり',hasFiberDiscount:true,fiberDiscount:'¥1,100',feature:'従量制。3GB以内に収まれば割安',recommendedFor:'月3GB以内のライトユーザー',caution:'3GB超は割高になる場合あり',officialUrl:'https://www.au.com/mobile/charge/'},
+  // povo
+  {brand:'povo',plan:'povo 2.0（基本料0円）',data:'基本0GB',dataValue:0,isUnlimited:false,price:0,call:'22円/30秒',callType:'従量課金',networkCode:'a',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'基本料0円。30GB¥2,780など必要時にトッピング購入',recommendedFor:'サブ回線、使う月だけ課金したい方',caution:'180日以内に有料トッピング購入必要',officialUrl:'https://povo.jp/'},
+  // SoftBank
+  {brand:'SoftBank',plan:'ペイトク無制限',data:'無制限',dataValue:999,isUnlimited:true,price:9350,call:'22円/30秒',callType:'従量課金',networkCode:'s',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'最大¥1,210',hasFiberDiscount:true,fiberDiscount:'¥1,100',feature:'PayPayポイント還元率アップ。2GB以下の月は¥1,650割引。2026年7月改定',recommendedFor:'PayPay経済圏を活用する方',caution:'2026年7月より+¥550改定',officialUrl:'https://www.softbank.jp/mobile/price_plan/'},
+  {brand:'SoftBank',plan:'メリハリ無制限＋',data:'無制限',dataValue:999,isUnlimited:true,price:9790,call:'22円/30秒',callType:'従量課金',networkCode:'s',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'最大¥1,210',hasFiberDiscount:true,fiberDiscount:'¥1,100',feature:'2GB以下の月は¥1,650割引。2026年7月+¥550改定',recommendedFor:'SoftBank光ユーザー、家族でまとめる方',caution:'2026年7月より改定',officialUrl:'https://www.softbank.jp/mobile/price_plan/'},
+  // LINEMO
+  {brand:'LINEMO',plan:'ベストプラン 3GB',data:'3GB',dataValue:3,isUnlimited:false,price:990,call:'22円/30秒',callType:'従量課金',networkCode:'s',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'LINEギガカウントフリー。3GBで¥990は最安水準',recommendedFor:'LINEをよく使い、データ使用量が少ない方',caution:'店舗サポートなし',officialUrl:'https://www.linemo.jp/'},
+  {brand:'LINEMO',plan:'ベストプラン 10GB',data:'10GB',dataValue:10,isUnlimited:false,price:2090,call:'22円/30秒',callType:'従量課金',networkCode:'s',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'LINEギガカウントフリー。10GBで¥2,090',recommendedFor:'LINE多用、中容量の方',caution:'店舗サポートなし',officialUrl:'https://www.linemo.jp/'},
+  {brand:'LINEMO',plan:'ベストプラン 30GB',data:'30GB',dataValue:30,isUnlimited:false,price:2970,call:'22円/30秒',callType:'従量課金',networkCode:'s',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'LINEギガカウントフリー。30GBで¥2,970',recommendedFor:'LINE多用、大容量が必要な方',caution:'店舗サポートなし',officialUrl:'https://www.linemo.jp/'},
+  // Y!mobile
+  {brand:'Y!mobile',plan:'シンプル2 S（4GB）',data:'4GB',dataValue:4,isUnlimited:false,price:2178,call:'10分以内無料',callType:'10分以内',networkCode:'s',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'¥1,100',hasFiberDiscount:true,fiberDiscount:'SoftBank光/Air',feature:'4GB＋10分かけ放題。家族割で実質¥1,078〜',recommendedFor:'家族でまとめる方、SoftBank光ユーザー',caution:'4GBは少ない。データ不足に注意',officialUrl:'https://www.ymobile.jp/plan/'},
+  {brand:'Y!mobile',plan:'シンプル2 M（20GB）',data:'20GB',dataValue:20,isUnlimited:false,price:3278,call:'10分以内無料',callType:'10分以内',networkCode:'s',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'¥1,100',hasFiberDiscount:true,fiberDiscount:'SoftBank光/Air',feature:'20GB＋10分かけ放題。PayPay経済圏と相性良好',recommendedFor:'家族割と光割を使いたい方',caution:'無制限ではない',officialUrl:'https://www.ymobile.jp/plan/'},
+  {brand:'Y!mobile',plan:'シンプル2 L（30GB）',data:'30GB',dataValue:30,isUnlimited:false,price:4158,call:'10分以内無料',callType:'10分以内',networkCode:'s',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:true,familyDiscount:'¥1,100',hasFiberDiscount:true,fiberDiscount:'SoftBank光/Air',feature:'30GB＋10分かけ放題',recommendedFor:'大容量で家族割を活用したい方',caution:'単独契約では割高',officialUrl:'https://www.ymobile.jp/plan/'},
+  // 楽天モバイル
+  {brand:'楽天モバイル',plan:'Rakuten最強プラン（〜3GB）',data:'〜3GB',dataValue:3,isUnlimited:false,price:1078,call:'無料（Rakuten Linkアプリ）',callType:'かけ放題',networkCode:'r',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'従量制。3GBまで¥1,078、Rakuten Linkで通話無料',recommendedFor:'楽天経済圏ユーザー、ライトユーザー',caution:'プラチナバンド拡大中。地方・地下で繋がりにくい場合あり',officialUrl:'https://network.mobile.rakuten.co.jp/'},
+  {brand:'楽天モバイル',plan:'Rakuten最強プラン（無制限）',data:'無制限',dataValue:999,isUnlimited:true,price:3278,call:'無料（Rakuten Linkアプリ）',callType:'かけ放題',networkCode:'r',hasShopSupport:true,shopSupport:'あり',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'無制限¥3,278。楽天ポイント還元。通話無料',recommendedFor:'無制限で最安を求める方、楽天経済圏',caution:'エリアは拡大中だが地方注意',officialUrl:'https://network.mobile.rakuten.co.jp/'},
+  // UQ mobile
+  {brand:'UQ mobile',plan:'コミコミプランバリュー（5GB）',data:'5GB',dataValue:5,isUnlimited:false,price:1848,call:'10分以内無料',callType:'10分以内',networkCode:'a',hasShopSupport:true,shopSupport:'あり（auショップ）',hasFamilyDiscount:true,familyDiscount:'割引あり',hasFiberDiscount:true,fiberDiscount:'au光/UQ光',feature:'10分かけ放題込みで¥1,848。コスパ最高水準',recommendedFor:'店舗サポート希望、コスパ重視の方',caution:'5GB超は速度制限あり',officialUrl:'https://www.uqwimax.jp/mobile/'},
+  {brand:'UQ mobile',plan:'コミコミプランバリュー（30GB）',data:'30GB',dataValue:30,isUnlimited:false,price:2948,call:'10分以内無料',callType:'10分以内',networkCode:'a',hasShopSupport:true,shopSupport:'あり（auショップ）',hasFamilyDiscount:true,familyDiscount:'割引あり',hasFiberDiscount:true,fiberDiscount:'au光/UQ光',feature:'30GB＋10分かけ放題で¥2,948',recommendedFor:'中〜大容量で店舗サポートが必要な方',caution:'30GB超は速度制限',officialUrl:'https://www.uqwimax.jp/mobile/'},
+  // IIJmio
+  {brand:'IIJmio',plan:'ギガプラン 2GB',data:'2GB',dataValue:2,isUnlimited:false,price:850,call:'11円/30秒',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'業界最安水準。余ったギガは翌月繰越',recommendedFor:'コスパ最重視、データ使用量が少ない方',caution:'昼混雑時に速度低下の可能性あり',officialUrl:'https://www.iijmio.jp/'},
+  {brand:'IIJmio',plan:'ギガプラン 5GB',data:'5GB',dataValue:5,isUnlimited:false,price:950,call:'11円/30秒',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'5GBで¥950。繰越あり。端末割引も充実',recommendedFor:'5GB程度使う節約志向の方',caution:'昼混雑時に低速になる場合あり',officialUrl:'https://www.iijmio.jp/'},
+  {brand:'IIJmio',plan:'ギガプラン 15GB',data:'15GB',dataValue:15,isUnlimited:false,price:1600,call:'11円/30秒',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'15GBで¥1,600。繰越あり。コスパ最高',recommendedFor:'15GB前後使う方でコスパ重視',caution:'店舗サポートなし',officialUrl:'https://www.iijmio.jp/'},
+  // mineo
+  {brand:'mineo',plan:'マイピタ 1GB',data:'1GB',dataValue:1,isUnlimited:false,price:1298,call:'22円/30秒',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'パケットシェア・フリータンクなど独自サービス充実',recommendedFor:'コミュニティ重視、使い勝手を重視する方',caution:'昼時間帯に速度低下あり',officialUrl:'https://mineo.jp/'},
+  {brand:'mineo',plan:'マイそく（使い放題 1.5Mbps）',data:'使い放題',dataValue:999,isUnlimited:true,price:990,call:'22円/30秒',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'1.5Mbps制限の使い放題で¥990。昼は最大32kbps',recommendedFor:'SNS・メール中心で動画をあまり見ない方',caution:'昼12〜13時は最大32kbpsに制限',officialUrl:'https://mineo.jp/'},
+  // 日本通信SIM
+  {brand:'日本通信SIM',plan:'合理的シンプル290',data:'1GB',dataValue:1,isUnlimited:false,price:290,call:'9円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'業界最安¥290。通話料30秒9円。1GB超は追加220円/GB',recommendedFor:'とにかく安く。Wi-Fi中心でほぼ外では使わない方',caution:'1GBを超えると追加料金発生',officialUrl:'https://www.nihontsushin.com/'},
+  {brand:'日本通信SIM',plan:'合理的かけほ190',data:'1GB',dataValue:1,isUnlimited:false,price:2178,call:'完全かけ放題',callType:'かけ放題',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'完全かけ放題込みで¥2,178。通話が多い方に最安水準',recommendedFor:'通話が多く格安SIMを使いたい方',caution:'データ1GBのみ（追加可）',officialUrl:'https://www.nihontsushin.com/'},
+  // NUROモバイル
+  {brand:'NUROモバイル',plan:'NEOs 3GB',data:'3GB',dataValue:3,isUnlimited:false,price:792,call:'22円/30秒',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'NURO光',feature:'3GBで¥792。LINEトーク無料。NURO光セット割あり',recommendedFor:'NURO光ユーザー、LINEをよく使う方',caution:'店舗サポートなし',officialUrl:'https://mobile.nuro.jp/'},
+  // LIBMO
+  {brand:'LIBMO',plan:'なっとくプラン 3GB',data:'3GB',dataValue:3,isUnlimited:false,price:980,call:'11円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'@T COM光',feature:'docomo回線。ギガ繰越あり。株主優待で月850円割引も',recommendedFor:'TOKAIグループユーザー、株主優待活用したい方',caution:'昼混雑時に速度低下あり',officialUrl:'https://www.libmo.jp/'},
+  {brand:'LIBMO',plan:'なっとくプラン 8GB',data:'8GB',dataValue:8,isUnlimited:false,price:1380,call:'11円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'@T COM光',feature:'8GBで¥1,380。繰越あり。6ヶ月割引キャンペーンあり',recommendedFor:'8GB前後使う方でコスパ重視',caution:'昼混雑時に速度低下あり',officialUrl:'https://www.libmo.jp/'},
+  {brand:'LIBMO',plan:'なっとくプラン 20GB',data:'20GB',dataValue:20,isUnlimited:false,price:1991,call:'11円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'@T COM光',feature:'20GBで¥1,991。繰越あり',recommendedFor:'20GB前後使う方',caution:'昼混雑時に速度低下あり',officialUrl:'https://www.libmo.jp/'},
+  {brand:'LIBMO',plan:'なっとくプラン 30GB',data:'30GB',dataValue:30,isUnlimited:false,price:2728,call:'11円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'@T COM光',feature:'30GBで¥2,728。繰越あり',recommendedFor:'30GB前後使う方',caution:'昼混雑時に速度低下あり',officialUrl:'https://www.libmo.jp/'},
+  {brand:'LIBMO',plan:'なっとくプラン 60GB',data:'60GB',dataValue:60,isUnlimited:false,price:3960,call:'11円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'@T COM光',feature:'60GBで¥3,960。繰越あり。サンキュー60GBキャンペーンで割引中',recommendedFor:'60GB使う方、TOKAIグループユーザー',caution:'キャンペーン期間確認を',officialUrl:'https://www.libmo.jp/'},
+];
+
+const BRAND_ORDER=['NTTドコモ','ahamo','au','povo','SoftBank','LINEMO','Y!mobile','楽天モバイル','UQ mobile','IIJmio','mineo','日本通信SIM','NUROモバイル','LIBMO'];
+
+let plans=[];
+let compareList=[];
+
+function loadPlans(){
+  const saved=localStorage.getItem('mm_plans2');
+  plans=saved?JSON.parse(saved):DEFAULT_PLANS.map((p,i)=>({...p,_idx:i}));
+  if(!plans[0]?._idx && plans[0]?._idx!==0) plans.forEach((p,i)=>p._idx=i);
+}
+function savePlans(){localStorage.setItem('mm_plans2',JSON.stringify(plans));}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  loadPlans();
+  renderBrandSections(plans);
+  calc();tick();setInterval(tick,1000);
+  document.getElementById('burger').addEventListener('click',openMenu);
+  document.getElementById('sm-close').addEventListener('click',closeMenu);
+  document.getElementById('overlay').addEventListener('click',closeMenu);
+});
+
+/* ── CLOCK ── */
+const WEEK=['日','月','火','水','木','金','土'];
+function tick(){
+  const n=new Date(),p=v=>String(v).padStart(2,'0');
+  document.getElementById('hd-time').textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+  document.getElementById('hd-date').textContent=`${n.getFullYear()}.${p(n.getMonth()+1)}.${p(n.getDate())} (${WEEK[n.getDay()]})`;
+}
+
+/* ── MENU / TAB ── */
+function openMenu(){document.getElementById('sidemenu').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function closeMenu(){document.getElementById('sidemenu').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
+function showTab(i){
+  document.querySelectorAll('.page-section').forEach((s,j)=>s.classList.toggle('active',i===j));
+  document.querySelectorAll('.ntab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── TAB0: ブランド別カテゴリ表示 ── */
+function renderBrandSections(data){
+  const wrap=document.getElementById('brand-sections');
+  const brands=BRAND_ORDER.filter(b=>data.some(p=>p.brand===b));
+  // データにないブランドも追加
+  data.forEach(p=>{if(!brands.includes(p.brand))brands.push(p.brand);});
+  if(!brands.length){wrap.innerHTML='<div style="padding:24px;text-align:center;color:var(--gray)">該当するプランがありません</div>';return;}
+  const accent=b=>BRAND_COLORS[b]||'#e5e7eb';
+  const iconText=b=>Array.from(b.replace(/\s+/g,'')).slice(0,2).join('').toUpperCase();
+  const iconColor=b=>accent(b)==='#e5e7eb'?'var(--navy)':'#fff';
+  const net=b=>BRAND_NET[b]||'multi';
+  wrap.innerHTML=brands.map((brand,bi)=>{
+    const bPlans=data.filter(p=>p.brand===brand);
+    if(!bPlans.length)return'';
+    const nc=net(brand);
+    const rows=bPlans.map(p=>{
+      const inC=compareList.some(c=>c._idx===p._idx);
+      return`<tr>
+        <td><div class="plan-brand-cell">${p.plan}</div></td>
+        <td><strong>${p.data}</strong></td>
+        <td><div class="plan-price-big">¥${p.price.toLocaleString()}</div><div class="plan-price-sm">/月（年間¥${(p.price*12).toLocaleString()}）</div></td>
+        <td style="font-size:10px">${p.call}</td>
+        <td>${p.hasShopSupport?'<span class="badge tag-shop">あり</span>':'<span style="font-size:9px;color:var(--gray)">なし</span>'}</td>
+        <td>${p.hasFamilyDiscount?'<span class="badge tag-fam">あり</span>':'<span style="font-size:9px;color:var(--gray)">なし</span>'}</td>
+        <td>${p.hasFiberDiscount?'<span class="badge tag-fiber">あり</span>':'<span style="font-size:9px;color:var(--gray)">なし</span>'}</td>
+        <td style="font-size:9px;max-width:140px;color:var(--gray)">${p.feature}</td>
+        <td>${p.officialUrl&&p.officialUrl!=='未登録'?`<a href="${p.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">公式↗</a>`:'—'}</td>
+        <td><button class="btn btn-sm ${inC?'btn-orange':'btn-outline'}" onclick="toggleCompare(${p._idx})">${inC?'✓選択中':'比較+'}</button></td>
+        <td><button class="btn btn-primary btn-sm" onclick="applyPlan(${p._idx})">反映</button></td>
+      </tr>`;
+    }).join('');
+    return`<div class="brand-section" id="bs-${bi}" style="--accent:${accent(brand)};margin:0 0 12px;border-radius:14px;border:1px solid var(--border)">
+      <div class="brand-hdr" style="background:${accent(brand)}10" onclick="toggleBrand(${bi})">
+        <div class="brand-bg-num">${String(bi+1).padStart(2,'0')}</div>
+        <div class="brand-hdr-inner">
+          <div class="brand-sq" style="background:${accent(brand)};border:${accent(brand)==='#e5e7eb'?'1px solid var(--border)':'none'}"><div class="brand-sq-txt" style="color:${iconColor(brand)}">${iconText(brand)}</div></div>
+          <div>
+            <div class="brand-eye" style="color:${accent(brand)}">//  ${String(bi+1).padStart(2,'0')} — ${NET_LABEL[nc]||''}</div>
+            <div class="brand-name">${brand}</div>
+          </div>
+        </div>
+        <div class="brand-right">
+          <span class="badge ${NET_BADGE[nc]||'net-m'}">${NET_LABEL[nc]}</span>
+          <div class="brand-network">${bPlans.length}プラン</div>
+        </div>
+        <div class="brand-toggle" style="color:${accent(brand)}">▶</div>
+      </div>
+      <div class="brand-body">
+        <div class="plan-wrap"><table class="plan-table">
+          <thead><tr><th>プラン名</th><th>データ量</th><th>月額料金</th><th>通話</th><th>店舗</th><th>家族割</th><th>光割</th><th>特徴</th><th>公式</th><th>比較</th><th>反映</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleBrand(bi){
+  const el=document.getElementById(`bs-${bi}`);
+  el.classList.toggle('open');
+}
+
+function filterPlans(){
+  const q=document.getElementById('plan-search').value.toLowerCase();
+  const dv=document.getElementById('f-data').value;
+  const net=document.getElementById('f-net').value;
+  let filtered=[...plans];
+  if(q)filtered=filtered.filter(p=>(p.brand+p.plan+p.feature).toLowerCase().includes(q));
+  if(dv){
+    const dvi=parseInt(dv);
+    if(dvi===99)filtered=filtered.filter(p=>p.isUnlimited||p.dataValue>=50);
+    else if(dvi===30)filtered=filtered.filter(p=>p.dataValue>20&&!p.isUnlimited);
+    else filtered=filtered.filter(p=>p.dataValue<=dvi&&!p.isUnlimited);
+  }
+  if(net)filtered=filtered.filter(p=>p.networkCode===net||(p.networkCode==='multi'&&net));
+  renderBrandSections(filtered);
+  // 検索時は全ブランドを開く
+  if(q||dv||net){document.querySelectorAll('.brand-section').forEach(el=>el.classList.add('open'));}
+}
+
+function resetFilter(){
+  document.getElementById('plan-search').value='';
+  document.getElementById('f-data').value='';
+  document.getElementById('f-net').value='';
+  renderBrandSections(plans);
+}
+
+/* ── Compare ── */
+function toggleCompare(idx){
+  const p=plans.find(p=>p._idx===idx);if(!p)return;
+  const pos=compareList.findIndex(c=>c._idx===idx);
+  if(pos>=0){compareList.splice(pos,1);}
+  else{if(compareList.length>=3){alert('比較できるのは最大3件までです');return;}compareList.push(p);}
+  updateCompareBar();
+  filterPlans();
+}
+function clearCompare(){compareList=[];updateCompareBar();filterPlans();}
+function updateCompareBar(){
+  const el=document.getElementById('compare-items');
+  if(!compareList.length){el.innerHTML='<span style="font-size:10px;color:#c2410c;opacity:.6">プランを選択してください（最大3件）</span>';return;}
+  el.innerHTML=compareList.map(p=>`<div class="compare-chip">${p.brand} ${p.plan}<span class="compare-chip-rm" onclick="toggleCompare(${p._idx})">✕</span></div>`).join('');
+}
+function doMultiCompare(){
+  if(compareList.length<2){alert('2件以上選択してください');return;}
+  const minP=Math.min(...compareList.map(p=>p.price));
+  const maxD=Math.max(...compareList.map(p=>p.dataValue));
+  const html=compareList.map(p=>`
+    <div class="mc-card">
+      ${p.price===minP?'<div class="mc-label-best">最安</div>':p.dataValue===maxD&&compareList.filter(x=>x.dataValue===maxD).length<compareList.length?'<div class="mc-label-big">大容量</div>':''}
+      <div class="mc-hdr">
+        <div class="mc-brand">${p.brand}</div><div class="mc-plan">${p.plan}</div>
+        <div class="mc-price">¥${p.price.toLocaleString()}<small>/月</small></div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-row"><span class="mc-key">年間料金</span><span class="mc-val">¥${(p.price*12).toLocaleString()}</span></div>
+        <div class="mc-row"><span class="mc-key">データ量</span><span class="mc-val">${p.data}</span></div>
+        <div class="mc-row"><span class="mc-key">通話</span><span class="mc-val">${p.call}</span></div>
+        <div class="mc-row"><span class="mc-key">回線</span><span class="mc-val">${NET_LABEL[p.networkCode]||p.networkCode}</span></div>
+        <div class="mc-row"><span class="mc-key">店舗</span><span class="mc-val">${p.shopSupport}</span></div>
+        <div class="mc-row"><span class="mc-key">家族割</span><span class="mc-val">${p.familyDiscount}</span></div>
+        <div class="mc-row"><span class="mc-key">光割</span><span class="mc-val">${p.fiberDiscount}</span></div>
+        <div class="mc-row"><span class="mc-key">特徴</span><span class="mc-val" style="text-align:left;font-weight:400;font-size:9px">${p.feature}</span></div>
+        <div class="mc-row" style="border:none"><span class="mc-key">注意</span><span class="mc-val" style="text-align:left;font-weight:400;font-size:9px;color:var(--red)">${p.caution}</span></div>
+      </div>
+      <div class="mc-footer">
+        ${p.officialUrl&&p.officialUrl!=='未登録'?`<a href="${p.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">公式↗</a>`:''}
+        <button class="btn btn-primary btn-sm" onclick="applyPlan(${p._idx})">見直しに反映</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('multi-body').innerHTML=`<div class="multi-grid">${html}</div>`;
+  document.getElementById('multi-result').style.display='block';
+  document.getElementById('multi-result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function applyPlan(idx){
+  const p=plans.find(p=>p._idx===idx);if(!p)return;
+  document.getElementById('a_carrier').value=p.brand;
+  document.getElementById('a_plan').value=p.plan;
+  const sel=document.getElementById('a_data');
+  const dv=p.data;
+  let matched=false;
+  for(let i=0;i<sel.options.length;i++){if(sel.options[i].text===dv){sel.selectedIndex=i;matched=true;break;}}
+  if(!matched)sel.value='';
+  document.getElementById('a_base').value=p.price;
+  const ctSel=document.getElementById('a_calltype');
+  const callMap={'5分以内':'5分以内無料','10分以内':'10分以内無料','かけ放題':'完全かけ放題','従量課金':'従量課金（22円/30秒）'};
+  const ctVal=callMap[p.callType]||'従量課金（22円/30秒）';
+  for(let i=0;i<ctSel.options.length;i++){if(ctSel.options[i].text===ctVal){ctSel.selectedIndex=i;break;}}
+  document.getElementById('a_note').value=p.feature;
+  calc();showTab(2);
+}
+
+/* ── TAB1: 診断 ── */
+function diagnose(){
+  const dData=parseInt(document.getElementById('d_data').value);
+  const dCall=document.getElementById('d_call').value;
+  const dNet=document.getElementById('d_net').value;
+  const dShop=document.getElementById('d_shop').value;
+  const dFam=document.getElementById('d_fam').value;
+  const dFiber=document.getElementById('d_fiber').value;
+  const dPrice=document.getElementById('d_price').value;
+  const dOnline=document.getElementById('d_online').value;
+  const scored=plans.map(p=>{
+    let score=0;const reasons=[];
+    if(p.isUnlimited){score+=dData>=30?30:10;reasons.push('大容量・無制限対応');}
+    else if(p.dataValue>=dData){score+=20;reasons.push(`希望データ量(${dData}GB)を満たす`);}
+    else{score-=30;}
+    if(dPrice==='cheap'){score+=Math.max(0,Math.round((5000-p.price)/100));reasons.push('低価格プラン');}
+    else if(dPrice==='quality'){if(p.hasShopSupport)score+=15;}
+    else{score+=Math.max(0,Math.round((4000-p.price)/100));}
+    if(dNet!=='any'){if(p.networkCode===dNet){score+=20;reasons.push('希望回線と一致');}else if(p.networkCode==='multi'){score+=8;}else score-=5;}
+    if(dCall==='unlimited'&&p.callType==='かけ放題'){score+=25;reasons.push('かけ放題対応');}
+    else if(dCall==='10min'&&(p.callType==='10分以内'||p.callType==='かけ放題')){score+=20;reasons.push('10分かけ放題対応');}
+    else if(dCall==='5min'&&(p.callType==='5分以内'||p.callType==='10分以内'||p.callType==='かけ放題')){score+=15;reasons.push('5分かけ放題対応');}
+    else if(dCall==='none')score+=5;
+    if(dShop==='need'){if(p.hasShopSupport){score+=20;reasons.push('店舗サポートあり');}else score-=15;}
+    if(dOnline==='ng'&&!p.hasShopSupport)score-=15;
+    if(dFam==='yes'){if(p.hasFamilyDiscount){score+=15;reasons.push('家族割あり');}else score-=5;}
+    if(dFiber==='yes'){if(p.hasFiberDiscount){score+=10;reasons.push('光回線セット割あり');}else score-=3;}
+    return{...p,score,reasons};
+  }).sort((a,b)=>b.score-a.score).slice(0,5);
+  const rankClass=['rank-1','rank-2','rank-3','rank-4','rank-5'];
+  const matchLabel=(i,s)=>{
+    if(i===0)return'<span class="diag-match match-best">最もおすすめ</span>';
+    if(s>=50)return'<span class="diag-match match-good">相性が良い</span>';
+    return'<span class="diag-match match-ok">条件付きでおすすめ</span>';
+  };
+  document.getElementById('diag-result').innerHTML=scored.map((p,i)=>`
+    <div class="diag-card">
+      <div class="diag-rank ${rankClass[i]}">${i+1}</div>
+      <div class="diag-body">
+        <div class="diag-brand">${p.brand}</div>
+        <div class="diag-plan">${p.plan}</div>
+        <div class="diag-price">¥${p.price.toLocaleString()}<span style="font-size:10px;font-weight:400;color:var(--gray)">/月</span></div>
+        <div style="font-size:10px;color:var(--gray);margin-top:3px">${p.data} / ${p.call}</div>
+        ${matchLabel(i,p.score)}
+        <div class="diag-reason">
+          <strong>おすすめ理由：</strong>${p.reasons.length?p.reasons.join('、')+'。':p.recommendedFor}<br>
+          ${p.caution?`<span style="color:var(--red)">⚠ ${p.caution}</span>`:''}
+        </div>
+      </div>
+      <div class="diag-footer">
+        ${p.officialUrl&&p.officialUrl!=='未登録'?`<a href="${p.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">公式↗</a>`:''}
+        <button class="btn btn-primary btn-sm" onclick="applyPlan(${p._idx})">見直しに反映</button>
+        <button class="btn btn-outline btn-sm" onclick="toggleCompare(${p._idx});showTab(0)">比較に追加</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ── TAB2: 料金計算 ── */
+function n(id){return parseFloat(document.getElementById(id)?.value)||0;}
+function v(id){return document.getElementById(id)?.value||'';}
+function yen(n){return n===0?'¥0':'¥'+Math.abs(n).toLocaleString();}
+function setTxt(id,val){const el=document.getElementById(id);if(el)el.textContent=val||'—';}
+
+function calc(){
+  const cBase=n('c_base'),cCall=n('c_call_fee'),cDev=n('c_device'),cOpt=n('c_option'),cDisc=n('c_disc'),cTotalIn=n('c_total');
+  const cM=cTotalIn>0?cTotalIn:(cBase+cCall+cDev+cOpt-cDisc);
+  const aBase=n('a_base'),aCall=n('a_call_fee'),aDev=n('a_device'),aOpt=n('a_option'),aDisc=n('a_disc'),aInit=n('a_init'),aCamp=n('a_campaign');
+  const aM=aBase+aCall+aDev+aOpt-aDisc-aCamp;
+  const diff=cM-aM,yearDiff=diff*12,year1=yearDiff-aInit,debt=n('c_debt'),debtDiff=yearDiff-debt;
+
+  document.getElementById('r_cur').textContent=yen(cM);
+  document.getElementById('r_aft').textContent=yen(aM);
+
+  const diffEl=document.getElementById('r_diff');
+  const diffCard=document.getElementById('r_diff_card');
+  const yearEl=document.getElementById('r_year');
+  const yearCard=document.getElementById('r_year_card');
+  if(diff>0){
+    diffEl.textContent='▼ '+yen(diff);diffEl.className='sum-val green';
+    diffCard.className='sum-card save';yearEl.textContent='▼ '+yen(yearDiff);yearEl.className='sum-val green';yearCard.className='sum-card save';
+    document.getElementById('r_diff_lbl').textContent='月間削減';
+  }else if(diff<0){
+    diffEl.textContent='▲ '+yen(Math.abs(diff));diffEl.className='sum-val red';
+    diffCard.className='sum-card loss';yearEl.textContent='▲ '+yen(Math.abs(yearDiff));yearEl.className='sum-val red';yearCard.className='sum-card loss';
+    document.getElementById('r_diff_lbl').textContent='月間増加';
+  }else{
+    diffEl.textContent='¥0';diffEl.className='sum-val blue';diffCard.className='sum-card';yearCard.className='sum-card';
+    document.getElementById('r_diff_lbl').textContent='変化なし';
+  }
+  const y1El=document.getElementById('r_year1');y1El.textContent=(year1>=0?'▼ ':'▲ ')+yen(Math.abs(year1));y1El.className='sum-val '+(year1>=0?'green':'red');
+  const dEl=document.getElementById('r_debt');dEl.textContent=(debtDiff>=0?'▼ ':'▲ ')+yen(Math.abs(debtDiff));dEl.className='sum-val '+(debtDiff>=0?'green':'red');
+
+  setTxt('ct_c_carrier',v('c_carrier'));setTxt('ct_a_carrier',v('a_carrier'));
+  setTxt('ct_c_plan',v('c_plan'));setTxt('ct_a_plan',v('a_plan'));
+  setTxt('ct_c_data',v('c_data'));setTxt('ct_a_data',v('a_data'));
+  setTxt('ct_c_base',cBase?yen(cBase):'—');setTxt('ct_a_base',aBase?yen(aBase):'—');
+  setTxt('ct_c_call',cCall?yen(cCall):'—');setTxt('ct_a_call',aCall?yen(aCall):'—');
+  setTxt('ct_c_dev',cDev?yen(cDev):'—');setTxt('ct_a_dev',aDev?yen(aDev):'—');
+  setTxt('ct_c_opt',cOpt?yen(cOpt):'—');setTxt('ct_a_opt',aOpt?yen(aOpt):'—');
+  setTxt('ct_c_disc',cDisc?'-'+yen(cDisc):'—');setTxt('ct_a_disc',aDisc?'-'+yen(aDisc):'—');
+  const ctc=document.getElementById('ct_c_tot');if(ctc){ctc.textContent=yen(cM);ctc.className='cur td-num';}
+  const cta=document.getElementById('ct_a_tot');if(cta){cta.textContent=yen(aM);cta.className='aft td-num '+(aM<=cM?'td-g':'td-r');}
+  setTxt('ct_c_yr',yen(cM*12));setTxt('ct_a_yr',yen(aM*12));
+  setTxt('ct_c_callf',v('c_callfreq'));setTxt('ct_a_callt',v('a_calltype'));
+  setTxt('ct_c_cmp',v('c_complaint'));setTxt('ct_a_note',v('a_note'));
+
+  const comments=[];
+  if(diff>0)comments.push({t:'good',i:'✅',m:`月額${yen(diff)}の削減が見込めます。年間では${yen(yearDiff)}の節約になります。`});
+  else if(diff<0)comments.push({t:'bad',i:'⚠️',m:`見直し後の方が月額${yen(Math.abs(diff))}高くなります。他のプランも検討してみてください。`});
+  if(year1<0&&aInit>0)comments.push({t:'warn',i:'💡',m:`初期費用(${yen(aInit)})を含めると1年目は${yen(Math.abs(year1))}の負担増になります。2年目以降から節約効果が出ます。`});
+  if(aInit>0&&year1>0)comments.push({t:'warn',i:'💡',m:`初期費用${yen(aInit)}を差し引いても1年目で${yen(year1)}の節約が見込めます。`});
+  if(v('c_callfreq')==='ほとんど使わない'&&cCall>0)comments.push({t:'warn',i:'📞',m:`通話をほとんど使わないにも関わらず、通話オプション料金が${yen(cCall)}かかっています。外せる可能性があります。`});
+  if(cDev>0)comments.push({t:'warn',i:'📱',m:`端末分割代金(${yen(cDev)}/月)が月額料金を押し上げています。通信費のみで比較するとより効果が明確になります。`});
+  if(debt>0&&yearDiff<debt)comments.push({t:'bad',i:'⚠️',m:`端末残債(${yen(debt)})を含めると乗り換えの総合的な節約効果が限定的です。残債完済後の乗り換えも検討してください。`});
+  if(v('c_family')==='あり')comments.push({t:'warn',i:'👨‍👩‍👧',m:`現在、家族割が適用されています。格安SIMへの乗り換えで家族割が外れると割引がなくなる場合があります。`});
+  if(v('c_fiber')==='あり')comments.push({t:'warn',i:'🌐',m:`光回線セット割が適用されています。セット割のない格安SIMへ移行すると光回線の月額が上がる可能性があります。`});
+
+  const cl=document.getElementById('comment-list');
+  cl.innerHTML=comments.length?comments.map(c=>`<div class="cmmt ${c.t}"><span class="cmmt-icon">${c.i}</span><span>${c.m}</span></div>`).join(''):'<div style="padding:12px 16px;font-size:11px;color:var(--gray)">現在のプランと見直し後プランの情報を入力すると、判定コメントが表示されます。</div>';
+}
+
+function resetCurrent(){['c_plan','c_base','c_call_fee','c_device','c_option','c_disc','c_total','c_debt','c_complaint'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});['c_carrier','c_data','c_data_use','c_callfreq','c_family','c_fiber'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});calc();}
+function resetAfter(){['a_plan','a_base','a_call_fee','a_device','a_option','a_disc','a_init','a_campaign','a_note'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});['a_carrier','a_data','a_calltype'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});calc();}
+
+/* ── TAB3: 管理者 ── */
+function adminUnlock(){
+  if(document.getElementById('admin-pass').value===ADMIN_PASS){
+    document.getElementById('admin-lock-area').style.display='none';
+    document.getElementById('admin-body').style.display='block';
+    renderAdminList();
+  }else{
+    const err=document.getElementById('admin-err');err.classList.add('show');
+    document.getElementById('admin-pass').value='';
+    setTimeout(()=>err.classList.remove('show'),2000);
+  }
+}
+
+function renderAdminList(){
+  const container=document.getElementById('admin-list');
+  container.innerHTML=plans.map((p,i)=>`
+    <div class="edit-item">
+      <div class="edit-hdr" onclick="toggleEdit(${i})">
+        <div class="edit-hdr-info">
+          <div class="edit-brand">${p.brand} — ${p.plan}</div>
+          <div class="edit-meta">¥${p.price.toLocaleString()}/月 / ${p.data}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deletePlan(${i})">削除</button>
+          <span style="color:var(--gray)">▼</span>
+        </div>
+      </div>
+      <div class="edit-body" id="eb-${i}">
+        <div class="edit-grid">
+          ${ef(i,'brand','キャリア名',p.brand)}${ef(i,'plan','プラン名',p.plan)}
+          ${ef(i,'data','データ量表示',p.data)}${efn(i,'dataValue','データ量GB数値',p.dataValue)}
+          ${efs(i,'isUnlimited','無制限',p.isUnlimited,['true:はい','false:いいえ'])}${efn(i,'price','月額料金',p.price)}
+          ${ef(i,'call','通話条件',p.call)}${efs(i,'callType','通話タイプ',p.callType,['従量課金:従量課金','5分以内:5分以内','10分以内:10分以内','かけ放題:かけ放題'])}
+          ${efs(i,'networkCode','回線コード',p.networkCode,['d:docomo','a:au','s:SoftBank','r:楽天','multi:複数'])}
+          ${efs(i,'hasShopSupport','店舗サポート',p.hasShopSupport,['true:あり','false:なし'])}${ef(i,'shopSupport','店舗サポート詳細',p.shopSupport)}
+          ${efs(i,'hasFamilyDiscount','家族割',p.hasFamilyDiscount,['true:あり','false:なし'])}${ef(i,'familyDiscount','家族割詳細',p.familyDiscount)}
+          ${efs(i,'hasFiberDiscount','光割',p.hasFiberDiscount,['true:あり','false:なし'])}${ef(i,'fiberDiscount','光割詳細',p.fiberDiscount)}
+          ${ef(i,'feature','特徴',p.feature)}${ef(i,'recommendedFor','向いている人',p.recommendedFor)}
+          ${ef(i,'caution','注意点',p.caution)}${ef(i,'officialUrl','公式URL',p.officialUrl)}
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-green" onclick="savePlanEdit(${i})">保存</button>
+          <button class="btn btn-outline" onclick="toggleEdit(${i})">閉じる</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function ef(i,k,l,v){return`<div class="form-field"><label class="form-label">${l}</label><input class="form-input" id="ef_${i}_${k}" value="${(v||'').toString().replace(/"/g,'&quot;')}"/></div>`;}
+function efn(i,k,l,v){return`<div class="form-field"><label class="form-label">${l}</label><input class="form-input" type="number" id="ef_${i}_${k}" value="${v||0}"/></div>`;}
+function efs(i,k,l,v,opts){const o=opts.map(x=>{const[val,lbl]=x.split(':');return`<option value="${val}" ${String(v)===val?'selected':''}>${lbl}</option>`;}).join('');return`<div class="form-field"><label class="form-label">${l}</label><select class="form-select" id="ef_${i}_${k}">${o}</select></div>`;}
+function toggleEdit(i){document.getElementById(`eb-${i}`)?.classList.toggle('open');}
+function savePlanEdit(i){
+  const g=k=>document.getElementById(`ef_${i}_${k}`)?.value;
+  const gb=k=>g(k)==='true';const gn=k=>parseFloat(g(k))||0;
+  plans[i]={...plans[i],brand:g('brand'),plan:g('plan'),data:g('data'),dataValue:gn('dataValue'),isUnlimited:gb('isUnlimited'),
+    price:gn('price'),call:g('call'),callType:g('callType'),networkCode:g('networkCode'),
+    hasShopSupport:gb('hasShopSupport'),shopSupport:g('shopSupport'),hasFamilyDiscount:gb('hasFamilyDiscount'),familyDiscount:g('familyDiscount'),
+    hasFiberDiscount:gb('hasFiberDiscount'),fiberDiscount:g('fiberDiscount'),feature:g('feature'),
+    recommendedFor:g('recommendedFor'),caution:g('caution'),officialUrl:g('officialUrl')};
+  savePlans();renderAdminList();renderBrandSections(plans);alert('保存しました。');
+}
+function deletePlan(i){
+  if(!confirm(`「${plans[i].brand} ${plans[i].plan}」を削除しますか？`))return;
+  plans.splice(i,1);plans.forEach((p,j)=>p._idx=j);
+  savePlans();renderAdminList();renderBrandSections(plans);
+}
+function addNewPlan(){
+  const np={brand:'新しいキャリア',plan:'新プラン',data:'—',dataValue:0,isUnlimited:false,price:0,call:'—',callType:'従量課金',networkCode:'multi',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:false,fiberDiscount:'なし',feature:'',recommendedFor:'',caution:'',officialUrl:'未登録',_idx:plans.length};
+  plans.push(np);savePlans();renderAdminList();
+  setTimeout(()=>{document.getElementById(`eb-${plans.length-1}`)?.classList.add('open');},100);
+}
+function resetToDefault(){
+  const pass=prompt('初期化するためにパスワードを再入力してください：');
+  if(pass!==ADMIN_PASS){alert('パスワードが違います');return;}
+  if(!confirm('本当に初期データに戻しますか？編集内容はすべて失われます。'))return;
+  plans=DEFAULT_PLANS.map((p,i)=>({...p,_idx:i}));
+  savePlans();renderAdminList();renderBrandSections(plans);alert('初期データに戻しました。');
+}
+
+/* ── PRINT ── */
+const ps=document.createElement('style');
+ps.textContent=`@media print{header,nav,.nav-tabs,.overlay,.sidemenu,.card-hdr button,.btn,footer,.compare-bar,.filter-bar{display:none!important}.page-section{display:flex!important}.card{break-inside:avoid;box-shadow:none}}`;
+document.head.appendChild(ps);
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
