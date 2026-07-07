@@ -818,6 +818,13 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('burger').addEventListener('click',openMenu);
   document.getElementById('sm-close').addEventListener('click',closeMenu);
   document.getElementById('overlay').addEventListener('click',closeMenu);
+  // NET初期化
+  loadNetPlans();
+  renderNetBrandSections();
+  // Service Worker
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+  }
 });
 
 /* ── CLOCK ── */
@@ -1194,10 +1201,6 @@ function resetToDefault(){
   savePlans();renderAdminList();renderBrandSections(plans);alert('初期データに戻しました。');
 }
 
-/* ── SERVICE WORKER ── */
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
-}
 /* ── MODE SWITCH ── */
 function switchMode(mode){
   document.getElementById('view-mobile').classList.toggle('active', mode==='mobile');
@@ -1400,9 +1403,8 @@ function efs(i,k,l,v,opts,suffix=''){
   return`<div class="form-field"><label class="form-label">${l}</label><select class="form-select" id="${id}">${o}</select></div>`;
 }
 
-// NET初期化
-loadNetPlans();
-renderNetBrandSections();
+// NET初期化はDOMContentLoaded内で行う（view-netがDOMに存在した後）
+</script>
 const ps=document.createElement('style');
 ps.textContent=`@media print{header,nav,.nav-tabs,.overlay,.sidemenu,.card-hdr button,.btn,footer,.compare-bar,.filter-bar{display:none!important}.page-section{display:flex!important}.card{break-inside:avoid;box-shadow:none}}`;
 document.head.appendChild(ps);
