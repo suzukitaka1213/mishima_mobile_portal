@@ -1239,29 +1239,29 @@ const NET_BRAND_ICON={
 const NET_BRAND_ORDER=['ドコモ光','ahamo光','auひかり','SoftBank光','NURO光','楽天ひかり','@T COM光','TOKAI光','OCN光','IIJ光','BIGLOBE光'];
 
 const DEFAULT_NET_PLANS=[
-  {brand:'ドコモ光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5720,priceApt:4400,lineType:'光コラボ（NTT）',setCarrier:'NTTドコモ・ahamo',setDiscount:'最大¥1,210/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国対応',feature:'docomo・ahamoのセット割が最大。全国対応で安心',caution:'2年縛りあり。解除料に注意',officialUrl:'https://hikari.docomo.ne.jp/'},
-  {brand:'ドコモ光',plan:'10ギガ（戸建て）',speed:'最大10Gbps',priceDetached:6930,priceApt:5500,lineType:'光コラボ（NTT）',setCarrier:'NTTドコモ・ahamo',setDiscount:'最大¥1,210/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'10G対応で高速。docomoユーザーに最適',caution:'提供エリア要確認',officialUrl:'https://hikari.docomo.ne.jp/'},
-  {brand:'ahamo光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4950,priceApt:3960,lineType:'光コラボ（NTT）',setCarrier:'ahamo',setDiscount:'割引なし（ahamo自体が安い）',hasSetDiscount:false,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'ahamoユーザー向け。縛りなしでシンプル',caution:'他キャリアとのセット割なし',officialUrl:'https://ahamo.com/services/hikari/'},
-  {brand:'auひかり',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5610,priceApt:4290,lineType:'独自回線（KDDI）',setCarrier:'au・UQ mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'独自回線で速度安定。au/UQとのセット割が強力',caution:'エリア確認必須。独自回線のため光コラボより工事が複雑',officialUrl:'https://www.au.com/internet/auhikari/'},
-  {brand:'auひかり',plan:'5ギガ（戸建て）',speed:'最大5Gbps',priceDetached:6160,priceApt:4730,lineType:'独自回線（KDDI）',setCarrier:'au・UQ mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'5G対応で将来も安心。独自回線の高速性',caution:'エリア確認必須',officialUrl:'https://www.au.com/internet/auhikari/'},
-  {brand:'SoftBank光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5720,priceApt:4400,lineType:'光コラボ（NTT）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年・5年自動更新あり',areaNote:'全国対応',feature:'SB/Y!mobileとのセット割。PayPay経済圏と相性良好',caution:'2026年12月以降料金改定予定',officialUrl:'https://www.softbank.jp/hikari/'},
-  {brand:'NURO光',plan:'2ギガ（戸建て）',speed:'最大2Gbps',priceDetached:3850,priceApt:2530,lineType:'独自回線（ソニー）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,650/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'都市部中心（エリア限定）',feature:'独自2Gbps回線で業界最速水準。月額も低め',caution:'提供エリアが限定的。必ずエリア確認を',officialUrl:'https://www.nuro.jp/'},
-  {brand:'NURO光',plan:'10ギガ（戸建て）',speed:'最大10Gbps',priceDetached:5700,priceApt:4400,lineType:'独自回線（ソニー）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,650/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'都市部中心（エリア限定）',feature:'10G対応。独自回線で速度・安定性トップクラス',caution:'エリア限定。工事は2回必要（2025年10月以降1回に改善）',officialUrl:'https://www.nuro.jp/'},
-  {brand:'楽天ひかり',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5280,priceApt:4180,lineType:'光コラボ（NTT）',setCarrier:'楽天モバイル',setDiscount:'¥1,100/月',hasSetDiscount:true,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'楽天モバイルとのセット割。楽天ポイント還元あり。縛りなし',caution:'現金キャッシュバックなし。ポイント還元のみ',officialUrl:'https://hikari.rakuten.co.jp/'},
-  {brand:'@T COM光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4818,priceApt:3718,lineType:'光コラボ（NTT）',setCarrier:'LIBMO',setDiscount:'¥220/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'全国対応',feature:'LIBMOとのセット割対応。キャッシュバックキャンペーンが充実',caution:'セット割は小額。LIBMO以外は恩恵薄い',officialUrl:'https://www.t-com.ne.jp/hikari/'},
-  {brand:'TOKAI光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4840,priceApt:3630,lineType:'光コラボ（NTT）',setCarrier:'LIBMO（TOKAI系）',setDiscount:'¥220/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'東海・関東など（要確認）',feature:'東海地方に強い。LIBMOとのセット割あり',caution:'提供エリア要確認',officialUrl:'https://www.tokai.co.jp/hikari/'},
-  {brand:'OCN光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4928,priceApt:3608,lineType:'光コラボ（NTT）',setCarrier:'なし',setDiscount:'なし',hasSetDiscount:false,contractPeriod:'縛りなし（月額プランあり）',areaNote:'全国対応',feature:'NTTグループの信頼性。縛りなしプランあり',caution:'携帯とのセット割なし',officialUrl:'https://www.ntt.com/personal/services/internet/hikari/ocnhikari.html'},
-  {brand:'IIJ光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4620,priceApt:3520,lineType:'光コラボ（NTT）',setCarrier:'IIJmio（割引あり）',setDiscount:'割引あり（要確認）',hasSetDiscount:true,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'IIJmioとの親和性高い。縛りなし',caution:'セット割は小額',officialUrl:'https://www.iij.ad.jp/hikari/'},
-  {brand:'BIGLOBE光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4928,priceApt:3608,lineType:'光コラボ（NTT）',setCarrier:'au・UQ mobile（割引あり）',setDiscount:'割引あり',hasSetDiscount:true,contractPeriod:'2年',areaNote:'全国対応',feature:'au/UQとの相性良好。キャッシュバックキャンペーンあり',caution:'2年縛りあり',officialUrl:'https://join.biglobe.ne.jp/mobile/hikari/'},
+  {brand:'ドコモ光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:5720,priceApt:4400,lineType:'光コラボ（NTT）',setCarrier:'NTTドコモ・ahamo',setDiscount:'最大¥1,210/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国対応',feature:'docomo・ahamoのセット割が最大。全国対応で安心',caution:'2年縛りあり。解除料に注意',officialUrl:'https://hikari.docomo.ne.jp/'},
+  {brand:'ドコモ光',plan:'10ギガ',speed:'最大10Gbps',priceDetached:6930,priceApt:5500,lineType:'光コラボ（NTT）',setCarrier:'NTTドコモ・ahamo',setDiscount:'最大¥1,210/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'10G対応で高速。docomoユーザーに最適',caution:'提供エリア要確認',officialUrl:'https://hikari.docomo.ne.jp/'},
+  {brand:'ahamo光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:4950,priceApt:3960,lineType:'光コラボ（NTT）',setCarrier:'ahamo',setDiscount:'割引なし（ahamo自体が安い）',hasSetDiscount:false,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'ahamoユーザー向け。縛りなしでシンプル',caution:'他キャリアとのセット割なし',officialUrl:'https://ahamo.com/services/hikari/'},
+  {brand:'auひかり',plan:'1ギガ',speed:'最大1Gbps',priceDetached:5610,priceApt:4290,lineType:'独自回線（KDDI）',setCarrier:'au・UQ mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'独自回線で速度安定。au/UQとのセット割が強力',caution:'エリア確認必須。独自回線のため光コラボより工事が複雑',officialUrl:'https://www.au.com/internet/auhikari/'},
+  {brand:'auひかり',plan:'5ギガ',speed:'最大5Gbps',priceDetached:6160,priceApt:4730,lineType:'独自回線（KDDI）',setCarrier:'au・UQ mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'5G対応で将来も安心。独自回線の高速性',caution:'エリア確認必須',officialUrl:'https://www.au.com/internet/auhikari/'},
+  {brand:'SoftBank光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:5720,priceApt:4400,lineType:'光コラボ（NTT）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年・5年自動更新あり',areaNote:'全国対応',feature:'SB/Y!mobileとのセット割。PayPay経済圏と相性良好',caution:'2026年12月以降料金改定予定',officialUrl:'https://www.softbank.jp/hikari/'},
+  {brand:'NURO光',plan:'2ギガ',speed:'最大2Gbps',priceDetached:3850,priceApt:2530,lineType:'独自回線（ソニー）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,650/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'都市部中心（エリア限定）',feature:'独自2Gbps回線で業界最速水準。月額も低め',caution:'提供エリアが限定的。必ずエリア確認を',officialUrl:'https://www.nuro.jp/'},
+  {brand:'NURO光',plan:'10ギガ',speed:'最大10Gbps',priceDetached:5700,priceApt:4400,lineType:'独自回線（ソニー）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,650/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'都市部中心（エリア限定）',feature:'10G対応。独自回線で速度・安定性トップクラス',caution:'エリア限定。工事は2回必要（2025年10月以降1回に改善）',officialUrl:'https://www.nuro.jp/'},
+  {brand:'楽天ひかり',plan:'1ギガ',speed:'最大1Gbps',priceDetached:5280,priceApt:4180,lineType:'光コラボ（NTT）',setCarrier:'楽天モバイル',setDiscount:'¥1,100/月',hasSetDiscount:true,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'楽天モバイルとのセット割。楽天ポイント還元あり。縛りなし',caution:'現金キャッシュバックなし。ポイント還元のみ',officialUrl:'https://hikari.rakuten.co.jp/'},
+  {brand:'@T COM光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:4818,priceApt:3718,lineType:'光コラボ（NTT）',setCarrier:'LIBMO',setDiscount:'¥220/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'全国対応',feature:'LIBMOとのセット割対応。キャッシュバックキャンペーンが充実',caution:'セット割は小額。LIBMO以外は恩恵薄い',officialUrl:'https://www.t-com.ne.jp/hikari/'},
+  {brand:'TOKAI光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:4840,priceApt:3630,lineType:'光コラボ（NTT）',setCarrier:'LIBMO（TOKAI系）',setDiscount:'¥220/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'東海・関東など（要確認）',feature:'東海地方に強い。LIBMOとのセット割あり',caution:'提供エリア要確認',officialUrl:'https://www.tokai.co.jp/hikari/'},
+  {brand:'OCN光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:4928,priceApt:3608,lineType:'光コラボ（NTT）',setCarrier:'なし',setDiscount:'なし',hasSetDiscount:false,contractPeriod:'縛りなし（月額プランあり）',areaNote:'全国対応',feature:'NTTグループの信頼性。縛りなしプランあり',caution:'携帯とのセット割なし',officialUrl:'https://www.ntt.com/personal/services/internet/hikari/ocnhikari.html'},
+  {brand:'IIJ光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:4620,priceApt:3520,lineType:'光コラボ（NTT）',setCarrier:'IIJmio（割引あり）',setDiscount:'割引あり（要確認）',hasSetDiscount:true,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'IIJmioとの親和性高い。縛りなし',caution:'セット割は小額',officialUrl:'https://www.iij.ad.jp/hikari/'},
+  {brand:'BIGLOBE光',plan:'1ギガ',speed:'最大1Gbps',priceDetached:4928,priceApt:3608,lineType:'光コラボ（NTT）',setCarrier:'au・UQ mobile（割引あり）',setDiscount:'割引あり',hasSetDiscount:true,contractPeriod:'2年',areaNote:'全国対応',feature:'au/UQとの相性良好。キャッシュバックキャンペーンあり',caution:'2年縛りあり',officialUrl:'https://join.biglobe.ne.jp/mobile/hikari/'},
 ];
 
 let netPlans=[];
 function loadNetPlans(){
-  const saved=localStorage.getItem('mm_net_plans');
+  const saved=localStorage.getItem('mm_net_plans2');
   netPlans=saved?JSON.parse(saved):DEFAULT_NET_PLANS.map((p,i)=>({...p,_idx:i}));
   if(!netPlans[0]?._idx && netPlans[0]?._idx!==0)netPlans.forEach((p,i)=>p._idx=i);
 }
-function saveNetPlans(){localStorage.setItem('mm_net_plans',JSON.stringify(netPlans));}
+function saveNetPlans(){localStorage.setItem('mm_net_plans2',JSON.stringify(netPlans));}
 
 function renderNetBrandSections(){
   const wrap=document.getElementById('net-brand-sections');
@@ -1277,8 +1277,8 @@ function renderNetBrandSections(){
     const rows=bP.map(p=>`<tr>
       <td><strong>${p.plan}</strong></td>
       <td><span class="badge" style="background:${acColor}20;color:${acColor}">${p.speed}</span></td>
-      <td><div style="font-family:'DM Mono',monospace;font-weight:900;font-size:13px;color:var(--blue)">¥${p.priceDetached.toLocaleString()}</div><div style="font-size:9px;color:var(--gray)">戸建て/月</div></td>
-      <td><div style="font-family:'DM Mono',monospace;font-weight:700;font-size:12px;color:var(--blue)">¥${p.priceApt.toLocaleString()}</div><div style="font-size:9px;color:var(--gray)">マンション/月</div></td>
+      <td><div style="font-family:'DM Mono',monospace;font-weight:900;font-size:13px;color:var(--blue)">¥${p.priceDetached.toLocaleString()}</div><div style="font-size:9px;color:var(--gray)">戸建て</div></td>
+      <td><div style="font-family:'DM Mono',monospace;font-weight:700;font-size:12px;color:var(--blue)">¥${p.priceApt.toLocaleString()}</div><div style="font-size:9px;color:var(--gray)">マンション</div></td>
       <td style="font-size:10px">${p.lineType}</td>
       <td>${p.hasSetDiscount?`<span class="badge tag-fam">${p.setCarrier}</span><div style="font-size:9px;color:var(--green);margin-top:2px">${p.setDiscount}</div>`:'<span style="font-size:9px;color:var(--gray)">なし</span>'}</td>
       <td style="font-size:10px;color:var(--gray)">${p.contractPeriod}</td>
