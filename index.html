@@ -4,14 +4,12 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
 <title>MISHIMA MOBILE</title>
-<meta name="theme-color" content="#071426"/>
-<meta name="mobile-web-app-capable" content="yes"/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0a1628"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-title" content="MISHIMA"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<link rel="manifest" href="./manifest.webmanifest"/>
-<link rel="icon" type="image/png" sizes="192x192" href="./mishima-mobile-icon-192.png"/>
-<link rel="apple-touch-icon" href="./apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-title" content="MISHIMA MOBILE"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,900&family=Barlow:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -77,11 +75,11 @@ header{position:sticky;top:0;z-index:100;background:var(--navy);display:grid;gri
 .hero-stat-l{font-size:7px;font-weight:700;letter-spacing:.15em;color:rgba(255,255,255,.3);text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:2px}
 
 /* NAV TABS */
-.nav-tabs{background:#fff;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.nav-tabs{background:var(--navy);border-bottom:1px solid rgba(255,255,255,.08);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nav-tabs::-webkit-scrollbar{display:none}
-.ntab{padding:12px 18px;font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gray);cursor:pointer;white-space:nowrap;position:relative;transition:all .2s;border-bottom:3px solid transparent;flex-shrink:0}
-.ntab:hover{color:var(--navy);background:#f8faff}
-.ntab.active{color:var(--blue);border-bottom-color:var(--blue);background:#f0f6ff}
+.ntab{padding:11px 18px;font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;white-space:nowrap;position:relative;transition:all .2s;border-bottom:3px solid transparent;flex-shrink:0}
+.ntab:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
+.ntab.active{color:#fff;border-bottom-color:var(--blue)}
 
 /* MAIN */
 main{padding:14px;display:flex;flex-direction:column;gap:12px}
@@ -103,13 +101,15 @@ main{padding:14px;display:flex;flex-direction:column;gap:12px}
 .brand-bg-num{position:absolute;left:-8px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-size:100px;font-weight:900;font-style:italic;letter-spacing:-.06em;line-height:1;pointer-events:none;z-index:0;color:rgba(0,0,0,.04)}
 .brand-hdr-inner{position:relative;z-index:1;display:flex;align-items:center;gap:14px;flex:1}
 .brand-sq{width:48px;height:48px;display:grid;place-items:center;flex-shrink:0;border-radius:10px;background:var(--accent)}
-.brand-sq-txt{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1}
+.brand-sq-txt{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:900;color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1}
 .brand-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;line-height:1;color:var(--navy)}
 .brand-eye{font-size:7px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;font-family:'DM Mono',monospace;color:var(--accent);margin-bottom:3px}
 .brand-right{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .brand-network{font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace}
-.brand-toggle{display:none}
-.brand-body{display:block;background:#fff}
+.brand-toggle{font-size:14px;color:var(--accent);transition:transform .3s}
+.brand-section.open .brand-toggle{transform:rotate(90deg)}
+.brand-body{display:none;background:#fff}
+.brand-section.open .brand-body{display:block}
 
 /* PLAN TABLE inside brand */
 .plan-wrap{overflow-x:auto}
@@ -276,7 +276,43 @@ main{padding:14px;display:flex;flex-direction:column;gap:12px}
 /* NOTICE */
 .notice{background:linear-gradient(135deg,#fffbeb,#fff);border:1.5px solid #fde68a;border-radius:10px;padding:10px 14px;font-size:10px;color:#92400e;line-height:1.6;display:flex;gap:8px;align-items:flex-start}
 
-@media(max-width:480px){
+/* MODE SWITCHER */
+.mode-switcher{background:#0a1628;border-bottom:2px solid rgba(255,255,255,.15);display:flex;justify-content:center;padding:8px 16px;gap:6px}
+.mode-btn{padding:7px 24px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);font-family:'Barlow',sans-serif;transition:all .2s;background:transparent}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.mode-btn:hover:not(.active){border-color:rgba(255,255,255,.5);color:#fff}
+.mode-view{display:none}
+.mode-view.active{display:block}
+
+/* NET BRAND SECTION */
+.net-brand-section{border-radius:12px;overflow:hidden;border:2px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:12px}
+.net-brand-hdr{padding:0 18px;display:flex;align-items:center;justify-content:space-between;min-height:76px;border-top:4px solid var(--net-accent);position:relative;overflow:hidden;cursor:pointer;transition:background .2s}
+.net-brand-bg{position:absolute;left:-8px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-size:100px;font-weight:900;font-style:italic;letter-spacing:-.06em;line-height:1;pointer-events:none;z-index:0;color:rgba(0,0,0,.04)}
+.net-brand-inner{position:relative;z-index:1;display:flex;align-items:center;gap:14px;flex:1}
+.net-brand-sq{width:46px;height:46px;display:grid;place-items:center;flex-shrink:0;border-radius:10px}
+.net-brand-sq-txt{font-size:14px;font-weight:900;color:#fff;letter-spacing:.02em}
+.net-brand-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;line-height:1}
+.net-brand-eye{font-size:7px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:3px}
+.net-brand-right{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.net-brand-toggle{font-size:14px;transition:transform .3s;margin-left:12px}
+.net-brand-section.open .net-brand-toggle{transform:rotate(90deg)}
+.net-brand-body{display:none;background:#fff}
+.net-brand-section.open .net-brand-body{display:block}
+
+/* NET TABLE */
+.net-table{width:100%;border-collapse:collapse;min-width:720px}
+.net-table th{padding:8px 12px;font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:1px solid var(--border);background:#fafbff;text-align:left}
+.net-table td{padding:10px 12px;font-size:11px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.net-table tr:hover td{background:#fafbff}
+.net-table tr:last-child td{border-bottom:none}
+
+/* SET DISCOUNT TABLE */
+.set-table{width:100%;border-collapse:collapse}
+.set-table th{padding:9px 14px;font-size:9px;font-weight:700;letter-spacing:.15em;color:var(--gray);text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:2px solid var(--border);background:#f8faff;text-align:left}
+.set-table td{padding:10px 14px;font-size:11px;border-bottom:1px solid #f1f5f9}
+.set-table tr:hover td{background:#fafbff}
+.set-table tr:last-child td{border-bottom:none}
+.set-discount-val{font-family:'DM Mono',monospace;font-weight:900;font-size:14px;color:var(--green)}
   .hero{padding:22px 14px 30px;flex-direction:column;align-items:flex-start}
   .hero-right{flex-direction:row}
   main{padding:10px}
@@ -305,6 +341,13 @@ main{padding:14px;display:flex;flex-direction:column;gap:12px}
     <div class="hd-live"><span class="live-dot"></span>Live</div>
   </div>
 </header>
+<div class="mode-switcher">
+  <button class="mode-btn active" id="mode-mobile" onclick="switchMode('mobile')">📱 MOBILE</button>
+  <button class="mode-btn" id="mode-net" onclick="switchMode('net')">🌐 NET</button>
+</div>
+
+<!-- MOBILE MODE -->
+<div class="mode-view active" id="view-mobile">
 <section class="hero">
   <div class="hero-orb orb1"></div><div class="hero-orb orb2"></div>
   <div class="hero-left">
@@ -575,6 +618,89 @@ main{padding:14px;display:flex;flex-direction:column;gap:12px}
 </div>
 
 </main>
+</div><!-- /view-mobile -->
+
+<!-- NET MODE -->
+<div class="mode-view" id="view-net">
+<section class="hero">
+  <div class="hero-orb orb1"></div><div class="hero-orb orb2"></div>
+  <div class="hero-left">
+    <div class="hero-badge"><span class="hero-badge-dot"></span><span class="hero-badge-txt">Fiber Optic Guide</span></div>
+    <h1 class="hero-h">MISHIMA<span>N<em>ET.</em></span></h1>
+    <div class="hero-date">// 2026年7月時点の情報です</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat"><div class="hero-stat-n">10+</div><div class="hero-stat-l">Providers</div></div>
+    <div class="hero-stat"><div class="hero-stat-n">最大</div><div class="hero-stat-l">10Gbps</div></div>
+  </div>
+</section>
+<div class="nav-tabs">
+  <div class="ntab active" id="net-tab0" onclick="showNetTab(0)">🏠 光回線比較表</div>
+  <div class="ntab" id="net-tab1" onclick="showNetTab(1)">💰 セット割一覧</div>
+  <div class="ntab" id="net-tab2" onclick="showNetTab(2)">⚙️ データ編集</div>
+</div>
+<main>
+<div class="notice">ℹ️ 料金・条件は2026年7月時点の参考情報です。最終確認は各社公式サイトで行ってください。</div>
+
+<!-- NET TAB0: 光回線比較表 -->
+<div class="page-section active" id="net-page0">
+  <div id="net-brand-sections"></div>
+</div>
+
+<!-- NET TAB1: セット割一覧 -->
+<div class="page-section" id="net-page1">
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-left"><div class="card-icon">💰</div><div><div class="card-title">携帯×光回線 セット割一覧</div><div class="card-sub">Smartphone + Fiber Discount</div></div></div></div>
+    <div style="overflow-x:auto;padding:14px">
+      <table class="set-table">
+        <thead><tr><th>携帯会社</th><th>対応光回線</th><th>割引額（月額）</th><th>条件</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NTTドコモ</strong></td><td>ドコモ光</td><td><span class="set-discount-val">最大¥1,210</span></td><td>ファミリー割引グループ内でドコモ光契約</td><td>回線数に応じて¥550〜¥1,210</td></tr>
+          <tr><td><strong>ahamo</strong></td><td>ドコモ光（間接適用）</td><td><span class="set-discount-val">最大¥1,100</span></td><td>同一ファミリーグループのeximo等が対象</td><td>ahamo本人への直接割引なし</td></tr>
+          <tr><td><strong>au</strong></td><td>auひかり</td><td><span class="set-discount-val">最大¥1,100</span></td><td>auスマートバリュー適用</td><td>家族も対象。au PAYカード割と併用可</td></tr>
+          <tr><td><strong>UQ mobile</strong></td><td>auひかり / UQ光</td><td><span class="set-discount-val">最大¥1,100</span></td><td>自宅セット割適用</td><td>UQ光とのセットでも同額割引</td></tr>
+          <tr><td><strong>SoftBank</strong></td><td>SoftBank光 / NURO光</td><td><span class="set-discount-val">最大¥1,100</span></td><td>おうち割 光セット適用</td><td>NURO光も対象。家族割と併用可</td></tr>
+          <tr><td><strong>Y!mobile</strong></td><td>SoftBank光 / NURO光</td><td><span class="set-discount-val">最大¥1,100</span></td><td>おうち割 光セット適用</td><td>SoftBankと同条件</td></tr>
+          <tr><td><strong>LINEMO</strong></td><td>対象なし</td><td><span style="color:var(--gray)">—</span></td><td>—</td><td>セット割の対象外</td></tr>
+          <tr><td><strong>楽天モバイル</strong></td><td>楽天ひかり</td><td><span class="set-discount-val">¥1,100</span></td><td>楽天ひかりとのセット</td><td>楽天ポイント還元もあり</td></tr>
+          <tr><td><strong>povo</strong></td><td>対象なし</td><td><span style="color:var(--gray)">—</span></td><td>—</td><td>セット割の対象外</td></tr>
+          <tr><td><strong>IIJmio / mineo 等MVNO</strong></td><td>基本なし</td><td><span style="color:var(--gray)">—</span></td><td>—</td><td>一部プロバイダとのセット割あり（要確認）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:14px;background:#f0fdf4;border-top:1px solid #86efac;font-size:11px;color:#166534;line-height:1.8">
+      💡 <strong>セット割活用のポイント：</strong>携帯会社と光回線を同じグループで揃えることで月額¥1,100〜¥1,210の恒久割引が受けられます。家族全員分に適用されるため、4人家族なら年間最大¥52,800の節約になります。
+    </div>
+  </div>
+</div>
+
+<!-- NET TAB2: データ編集 -->
+<div class="page-section" id="net-page2">
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-left"><div class="card-icon">⚙️</div><div><div class="card-title">光回線データ編集</div><div class="card-sub">Admin — Password Required</div></div></div></div>
+    <div id="net-admin-lock" class="admin-lock">
+      <div class="admin-lock-icon">🔒</div>
+      <div class="admin-lock-title">管理者パスワードを入力してください</div>
+      <div class="admin-lock-wrap">
+        <input class="admin-lock-input" id="net-admin-pass" type="password" placeholder="パスワード" autocomplete="off" onkeydown="if(event.key==='Enter')netAdminUnlock()"/>
+        <button class="admin-lock-btn" onclick="netAdminUnlock()">解除</button>
+      </div>
+      <div class="admin-lock-err" id="net-admin-err">⚠ パスワードが違います</div>
+    </div>
+    <div id="net-admin-body" style="display:none">
+      <div class="admin-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="addNewNetPlan()">＋ プランを追加</button>
+          <button class="btn btn-red" onclick="resetNetToDefault()">⚠ 初期データに戻す</button>
+        </div>
+        <div id="net-admin-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div><!-- /view-net -->
 <footer style="background:var(--navy);padding:20px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
   <div>
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;font-style:italic;color:#fff">MISHIMA <em style="color:var(--cyan);font-style:normal">MOBILE</em>.</div>
@@ -588,13 +714,23 @@ main{padding:14px;display:flex;flex-direction:column;gap:12px}
 const ADMIN_PASS='mishima1124';
 
 /* ══ ブランドカラー定義 ══ */
+// 朱色=docomo系、オレンジ=au系、水色=SB系、赤=楽天、緑=mineo、薄グレー=その他
 const BRAND_COLORS={
-  'NTTドコモ':'#e34234','ahamo':'#e34234',
-  'au':'#f97316','povo':'#f97316','UQ mobile':'#f97316',
-  'SoftBank':'#06b6d4','LINEMO':'#06b6d4','Y!mobile':'#06b6d4',
-  '楽天モバイル':'#e60012',
-  'mineo':'#16a34a',
-  'IIJmio':'#e5e7eb','日本通信SIM':'#e5e7eb','NUROモバイル':'#e5e7eb','LIBMO':'#e5e7eb'
+  'NTTドコモ':'#e53935','ahamo':'#e53935',
+  'au':'#f57c00','povo':'#f57c00','UQ mobile':'#f57c00',
+  'SoftBank':'#0288d1','LINEMO':'#0288d1','Y!mobile':'#0288d1',
+  '楽天モバイル':'#c62828',
+  'mineo':'#2e7d32',
+  'IIJmio':'#78909c','日本通信SIM':'#78909c','NUROモバイル':'#78909c','LIBMO':'#78909c'
+};
+// アイコン頭文字2文字
+const BRAND_ICON={
+  'NTTドコモ':'DO','ahamo':'AH',
+  'au':'AU','povo':'PO','UQ mobile':'UQ',
+  'SoftBank':'SB','LINEMO':'LI','Y!mobile':'YM',
+  '楽天モバイル':'RA',
+  'mineo':'MI',
+  'IIJmio':'IJ','日本通信SIM':'NT','NUROモバイル':'NU','LIBMO':'LB'
 };
 const BRAND_NET={
   'NTTドコモ':'d','ahamo':'d','日本通信SIM':'d','IIJmio':'multi','mineo':'multi','LIBMO':'d','NUROモバイル':'multi',
@@ -656,7 +792,14 @@ const DEFAULT_PLANS=[
   {brand:'LIBMO',plan:'なっとくプラン 60GB',data:'60GB',dataValue:60,isUnlimited:false,price:3960,call:'11円/30秒',callType:'従量課金',networkCode:'d',hasShopSupport:false,shopSupport:'なし',hasFamilyDiscount:false,familyDiscount:'なし',hasFiberDiscount:true,fiberDiscount:'@T COM光',feature:'60GBで¥3,960。繰越あり。サンキュー60GBキャンペーンで割引中',recommendedFor:'60GB使う方、TOKAIグループユーザー',caution:'キャンペーン期間確認を',officialUrl:'https://www.libmo.jp/'},
 ];
 
-const BRAND_ORDER=['NTTドコモ','ahamo','au','povo','SoftBank','LINEMO','Y!mobile','楽天モバイル','UQ mobile','IIJmio','mineo','日本通信SIM','NUROモバイル','LIBMO'];
+const BRAND_ORDER=[
+  'NTTドコモ','ahamo',
+  'au','povo','UQ mobile',
+  'SoftBank','LINEMO','Y!mobile',
+  '楽天モバイル',
+  'mineo',
+  'IIJmio','日本通信SIM','NUROモバイル','LIBMO'
+];
 
 let plans=[];
 let compareList=[];
@@ -701,9 +844,7 @@ function renderBrandSections(data){
   // データにないブランドも追加
   data.forEach(p=>{if(!brands.includes(p.brand))brands.push(p.brand);});
   if(!brands.length){wrap.innerHTML='<div style="padding:24px;text-align:center;color:var(--gray)">該当するプランがありません</div>';return;}
-  const accent=b=>BRAND_COLORS[b]||'#e5e7eb';
-  const iconText=b=>Array.from(b.replace(/\s+/g,'')).slice(0,2).join('').toUpperCase();
-  const iconColor=b=>accent(b)==='#e5e7eb'?'var(--navy)':'#fff';
+  const accent=b=>BRAND_COLORS[b]||'#2563eb';
   const net=b=>BRAND_NET[b]||'multi';
   wrap.innerHTML=brands.map((brand,bi)=>{
     const bPlans=data.filter(p=>p.brand===brand);
@@ -725,21 +866,25 @@ function renderBrandSections(data){
         <td><button class="btn btn-primary btn-sm" onclick="applyPlan(${p._idx})">反映</button></td>
       </tr>`;
     }).join('');
-    return`<div class="brand-section" id="bs-${bi}" style="--accent:${accent(brand)};margin:0 0 12px;border-radius:14px;border:1px solid var(--border)">
-      <div class="brand-hdr" style="background:${accent(brand)}10" onclick="toggleBrand(${bi})">
-        <div class="brand-bg-num">${String(bi+1).padStart(2,'0')}</div>
+    const iconTxt=BRAND_ICON[brand]||brand.substring(0,2).toUpperCase();
+    const isGray=accent(brand)==='#78909c';
+    const iconBg=isGray?'#b0bec5':accent(brand);
+    const iconColor=isGray?'#fff':'#fff';
+    return`<div class="brand-section" id="bs-${bi}" style="--accent:${accent(brand)};margin:0 0 12px 0;border-radius:12px;overflow:hidden;border:2px solid ${accent(brand)}30;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+      <div class="brand-hdr" style="background:${isGray?'#f5f7fa':accent(brand)+'12'}" onclick="toggleBrand(${bi})">
+        <div class="brand-bg-num" style="color:${accent(brand)}18">${String(bi+1).padStart(2,'0')}</div>
         <div class="brand-hdr-inner">
-          <div class="brand-sq" style="background:${accent(brand)};border:${accent(brand)==='#e5e7eb'?'1px solid var(--border)':'none'}"><div class="brand-sq-txt" style="color:${iconColor(brand)}">${iconText(brand)}</div></div>
+          <div class="brand-sq" style="background:${iconBg};border-radius:10px"><div class="brand-sq-txt" style="color:${iconColor};font-size:14px;font-weight:900;letter-spacing:.02em">${iconTxt}</div></div>
           <div>
-            <div class="brand-eye" style="color:${accent(brand)}">//  ${String(bi+1).padStart(2,'0')} — ${NET_LABEL[nc]||''}</div>
-            <div class="brand-name">${brand}</div>
+            <div class="brand-eye" style="color:${isGray?'#90a4ae':accent(brand)}">//  ${String(bi+1).padStart(2,'0')} — ${NET_LABEL[nc]||''}</div>
+            <div class="brand-name" style="color:${isGray?'#546e7a':accent(brand)}">${brand}</div>
           </div>
         </div>
         <div class="brand-right">
           <span class="badge ${NET_BADGE[nc]||'net-m'}">${NET_LABEL[nc]}</span>
           <div class="brand-network">${bPlans.length}プラン</div>
         </div>
-        <div class="brand-toggle" style="color:${accent(brand)}">▶</div>
+        <div class="brand-toggle" style="color:${isGray?'#90a4ae':accent(brand)}">▶</div>
       </div>
       <div class="brand-body">
         <div class="plan-wrap"><table class="plan-table">
@@ -1049,16 +1194,218 @@ function resetToDefault(){
   savePlans();renderAdminList();renderBrandSections(plans);alert('初期データに戻しました。');
 }
 
-/* ── PRINT ── */
+/* ── SERVICE WORKER ── */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+}
+/* ── MODE SWITCH ── */
+function switchMode(mode){
+  document.getElementById('view-mobile').classList.toggle('active', mode==='mobile');
+  document.getElementById('view-net').classList.toggle('active', mode==='net');
+  document.getElementById('mode-mobile').classList.toggle('active', mode==='mobile');
+  document.getElementById('mode-net').classList.toggle('active', mode==='net');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── NET TAB ── */
+function showNetTab(i){
+  [0,1,2].forEach(j=>{
+    document.getElementById(`net-page${j}`).classList.toggle('active', i===j);
+    document.getElementById(`net-tab${j}`).classList.toggle('active', i===j);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── 光回線データ ── */
+const NET_BRAND_COLORS={
+  'ドコモ光':'#e53935','ahamo光':'#e53935',
+  'auひかり':'#f57c00',
+  'SoftBank光':'#0288d1','NURO光':'#0288d1',
+  '楽天ひかり':'#c62828',
+  '@T COM光':'#78909c','TOKAI光':'#78909c',
+  'OCN光':'#78909c','IIJ光':'#78909c','BIGLOBE光':'#78909c',
+};
+const NET_BRAND_ICON={
+  'ドコモ光':'DO','ahamo光':'AH',
+  'auひかり':'AU',
+  'SoftBank光':'SB','NURO光':'NU',
+  '楽天ひかり':'RA',
+  '@T COM光':'AT','TOKAI光':'TK',
+  'OCN光':'OC','IIJ光':'IJ','BIGLOBE光':'BG',
+};
+const NET_BRAND_ORDER=['ドコモ光','ahamo光','auひかり','SoftBank光','NURO光','楽天ひかり','@T COM光','TOKAI光','OCN光','IIJ光','BIGLOBE光'];
+
+const DEFAULT_NET_PLANS=[
+  {brand:'ドコモ光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5720,priceApt:4400,lineType:'光コラボ（NTT）',setCarrier:'NTTドコモ・ahamo',setDiscount:'最大¥1,210/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国対応',feature:'docomo・ahamoのセット割が最大。全国対応で安心',caution:'2年縛りあり。解除料に注意',officialUrl:'https://hikari.docomo.ne.jp/'},
+  {brand:'ドコモ光',plan:'10ギガ（戸建て）',speed:'最大10Gbps',priceDetached:6930,priceApt:5500,lineType:'光コラボ（NTT）',setCarrier:'NTTドコモ・ahamo',setDiscount:'最大¥1,210/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'10G対応で高速。docomoユーザーに最適',caution:'提供エリア要確認',officialUrl:'https://hikari.docomo.ne.jp/'},
+  {brand:'ahamo光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4950,priceApt:3960,lineType:'光コラボ（NTT）',setCarrier:'ahamo',setDiscount:'割引なし（ahamo自体が安い）',hasSetDiscount:false,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'ahamoユーザー向け。縛りなしでシンプル',caution:'他キャリアとのセット割なし',officialUrl:'https://ahamo.com/services/hikari/'},
+  {brand:'auひかり',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5610,priceApt:4290,lineType:'独自回線（KDDI）',setCarrier:'au・UQ mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'独自回線で速度安定。au/UQとのセット割が強力',caution:'エリア確認必須。独自回線のため光コラボより工事が複雑',officialUrl:'https://www.au.com/internet/auhikari/'},
+  {brand:'auひかり',plan:'5ギガ（戸建て）',speed:'最大5Gbps',priceDetached:6160,priceApt:4730,lineType:'独自回線（KDDI）',setCarrier:'au・UQ mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年自動更新あり',areaNote:'全国（一部対応外）',feature:'5G対応で将来も安心。独自回線の高速性',caution:'エリア確認必須',officialUrl:'https://www.au.com/internet/auhikari/'},
+  {brand:'SoftBank光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5720,priceApt:4400,lineType:'光コラボ（NTT）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,100/月',hasSetDiscount:true,contractPeriod:'2年・5年自動更新あり',areaNote:'全国対応',feature:'SB/Y!mobileとのセット割。PayPay経済圏と相性良好',caution:'2026年12月以降料金改定予定',officialUrl:'https://www.softbank.jp/hikari/'},
+  {brand:'NURO光',plan:'2ギガ（戸建て）',speed:'最大2Gbps',priceDetached:3850,priceApt:2530,lineType:'独自回線（ソニー）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,650/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'都市部中心（エリア限定）',feature:'独自2Gbps回線で業界最速水準。月額も低め',caution:'提供エリアが限定的。必ずエリア確認を',officialUrl:'https://www.nuro.jp/'},
+  {brand:'NURO光',plan:'10ギガ（戸建て）',speed:'最大10Gbps',priceDetached:5700,priceApt:4400,lineType:'独自回線（ソニー）',setCarrier:'SoftBank・Y!mobile',setDiscount:'最大¥1,650/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'都市部中心（エリア限定）',feature:'10G対応。独自回線で速度・安定性トップクラス',caution:'エリア限定。工事は2回必要（2025年10月以降1回に改善）',officialUrl:'https://www.nuro.jp/'},
+  {brand:'楽天ひかり',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:5280,priceApt:4180,lineType:'光コラボ（NTT）',setCarrier:'楽天モバイル',setDiscount:'¥1,100/月',hasSetDiscount:true,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'楽天モバイルとのセット割。楽天ポイント還元あり。縛りなし',caution:'現金キャッシュバックなし。ポイント還元のみ',officialUrl:'https://hikari.rakuten.co.jp/'},
+  {brand:'@T COM光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4818,priceApt:3718,lineType:'光コラボ（NTT）',setCarrier:'LIBMO',setDiscount:'¥220/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'全国対応',feature:'LIBMOとのセット割対応。キャッシュバックキャンペーンが充実',caution:'セット割は小額。LIBMO以外は恩恵薄い',officialUrl:'https://www.t-com.ne.jp/hikari/'},
+  {brand:'TOKAI光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4840,priceApt:3630,lineType:'光コラボ（NTT）',setCarrier:'LIBMO（TOKAI系）',setDiscount:'¥220/月',hasSetDiscount:true,contractPeriod:'2年',areaNote:'東海・関東など（要確認）',feature:'東海地方に強い。LIBMOとのセット割あり',caution:'提供エリア要確認',officialUrl:'https://www.tokai.co.jp/hikari/'},
+  {brand:'OCN光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4928,priceApt:3608,lineType:'光コラボ（NTT）',setCarrier:'なし',setDiscount:'なし',hasSetDiscount:false,contractPeriod:'縛りなし（月額プランあり）',areaNote:'全国対応',feature:'NTTグループの信頼性。縛りなしプランあり',caution:'携帯とのセット割なし',officialUrl:'https://www.ntt.com/personal/services/internet/hikari/ocnhikari.html'},
+  {brand:'IIJ光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4620,priceApt:3520,lineType:'光コラボ（NTT）',setCarrier:'IIJmio（割引あり）',setDiscount:'割引あり（要確認）',hasSetDiscount:true,contractPeriod:'縛りなし',areaNote:'全国対応',feature:'IIJmioとの親和性高い。縛りなし',caution:'セット割は小額',officialUrl:'https://www.iij.ad.jp/hikari/'},
+  {brand:'BIGLOBE光',plan:'1ギガ（戸建て）',speed:'最大1Gbps',priceDetached:4928,priceApt:3608,lineType:'光コラボ（NTT）',setCarrier:'au・UQ mobile（割引あり）',setDiscount:'割引あり',hasSetDiscount:true,contractPeriod:'2年',areaNote:'全国対応',feature:'au/UQとの相性良好。キャッシュバックキャンペーンあり',caution:'2年縛りあり',officialUrl:'https://join.biglobe.ne.jp/mobile/hikari/'},
+];
+
+let netPlans=[];
+function loadNetPlans(){
+  const saved=localStorage.getItem('mm_net_plans');
+  netPlans=saved?JSON.parse(saved):DEFAULT_NET_PLANS.map((p,i)=>({...p,_idx:i}));
+  if(!netPlans[0]?._idx && netPlans[0]?._idx!==0)netPlans.forEach((p,i)=>p._idx=i);
+}
+function saveNetPlans(){localStorage.setItem('mm_net_plans',JSON.stringify(netPlans));}
+
+function renderNetBrandSections(){
+  const wrap=document.getElementById('net-brand-sections');
+  const brands=NET_BRAND_ORDER.filter(b=>netPlans.some(p=>p.brand===b));
+  netPlans.forEach(p=>{if(!brands.includes(p.brand))brands.push(p.brand);});
+  const ac=b=>NET_BRAND_COLORS[b]||'#78909c';
+  const ic=b=>NET_BRAND_ICON[b]||b.substring(0,2).toUpperCase();
+  wrap.innerHTML=brands.map((brand,bi)=>{
+    const bP=netPlans.filter(p=>p.brand===brand);
+    if(!bP.length)return'';
+    const acColor=ac(brand);
+    const isGray=acColor==='#78909c';
+    const rows=bP.map(p=>`<tr>
+      <td><strong>${p.plan}</strong></td>
+      <td><span class="badge" style="background:${acColor}20;color:${acColor}">${p.speed}</span></td>
+      <td><div style="font-family:'DM Mono',monospace;font-weight:900;font-size:13px;color:var(--blue)">¥${p.priceDetached.toLocaleString()}</div><div style="font-size:9px;color:var(--gray)">戸建て/月</div></td>
+      <td><div style="font-family:'DM Mono',monospace;font-weight:700;font-size:12px;color:var(--blue)">¥${p.priceApt.toLocaleString()}</div><div style="font-size:9px;color:var(--gray)">マンション/月</div></td>
+      <td style="font-size:10px">${p.lineType}</td>
+      <td>${p.hasSetDiscount?`<span class="badge tag-fam">${p.setCarrier}</span><div style="font-size:9px;color:var(--green);margin-top:2px">${p.setDiscount}</div>`:'<span style="font-size:9px;color:var(--gray)">なし</span>'}</td>
+      <td style="font-size:10px;color:var(--gray)">${p.contractPeriod}</td>
+      <td style="font-size:10px;color:var(--gray)">${p.areaNote}</td>
+      <td style="font-size:10px;color:var(--gray);max-width:130px">${p.feature}</td>
+      <td>${p.officialUrl?`<a href="${p.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">公式↗</a>`:'—'}</td>
+    </tr>`).join('');
+    return`<div class="net-brand-section open" id="nbs-${bi}" style="--net-accent:${acColor}">
+      <div class="net-brand-hdr" style="background:${isGray?'#f5f7fa':acColor+'12'}" onclick="toggleNetBrand(${bi})">
+        <div class="net-brand-bg" style="color:${acColor}18">${String(bi+1).padStart(2,'0')}</div>
+        <div class="net-brand-inner">
+          <div class="net-brand-sq" style="background:${isGray?'#b0bec5':acColor}"><div class="net-brand-sq-txt">${ic(brand)}</div></div>
+          <div>
+            <div class="net-brand-eye" style="color:${isGray?'#90a4ae':acColor}">//  光回線</div>
+            <div class="net-brand-name" style="color:${isGray?'#546e7a':acColor}">${brand}</div>
+          </div>
+        </div>
+        <div class="net-brand-right">
+          <span class="badge" style="background:${acColor}20;color:${acColor}">${bP.length}プラン</span>
+        </div>
+        <div class="net-brand-toggle" style="color:${isGray?'#90a4ae':acColor}">▶</div>
+      </div>
+      <div class="net-brand-body">
+        <div style="overflow-x:auto"><table class="net-table">
+          <thead><tr><th>プラン名</th><th>速度</th><th>月額（戸建て）</th><th>月額（マンション）</th><th>回線タイプ</th><th>セット割対象</th><th>契約期間</th><th>エリア</th><th>特徴</th><th>公式</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleNetBrand(bi){
+  document.getElementById(`nbs-${bi}`)?.classList.toggle('open');
+}
+
+/* ── NET 管理者 ── */
+function netAdminUnlock(){
+  if(document.getElementById('net-admin-pass').value===ADMIN_PASS){
+    document.getElementById('net-admin-lock').style.display='none';
+    document.getElementById('net-admin-body').style.display='block';
+    renderNetAdminList();
+  }else{
+    const err=document.getElementById('net-admin-err');err.classList.add('show');
+    document.getElementById('net-admin-pass').value='';
+    setTimeout(()=>err.classList.remove('show'),2000);
+  }
+}
+function renderNetAdminList(){
+  const container=document.getElementById('net-admin-list');
+  container.innerHTML=netPlans.map((p,i)=>`
+    <div class="edit-item">
+      <div class="edit-hdr" onclick="toggleNetEdit(${i})">
+        <div class="edit-hdr-info">
+          <div class="edit-brand">${p.brand} — ${p.plan}</div>
+          <div class="edit-meta">戸建て¥${p.priceDetached.toLocaleString()}/月 / ${p.speed}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteNetPlan(${i})">削除</button>
+          <span style="color:var(--gray)">▼</span>
+        </div>
+      </div>
+      <div class="edit-body" id="neb-${i}">
+        <div class="edit-grid">
+          ${ef(i,'brand','ブランド名',p.brand,'n')}${ef(i,'plan','プラン名',p.plan,'n')}
+          ${ef(i,'speed','速度',p.speed,'n')}${efn(i,'priceDetached','月額（戸建て）',p.priceDetached,'n')}
+          ${efn(i,'priceApt','月額（マンション）',p.priceApt,'n')}${ef(i,'lineType','回線タイプ',p.lineType,'n')}
+          ${ef(i,'setCarrier','セット割対象キャリア',p.setCarrier,'n')}${ef(i,'setDiscount','割引額',p.setDiscount,'n')}
+          ${efs(i,'hasSetDiscount','セット割有無',p.hasSetDiscount,['true:あり','false:なし'],'n')}
+          ${ef(i,'contractPeriod','契約期間',p.contractPeriod,'n')}${ef(i,'areaNote','エリア',p.areaNote,'n')}
+          ${ef(i,'feature','特徴',p.feature,'n')}${ef(i,'caution','注意点',p.caution,'n')}
+          ${ef(i,'officialUrl','公式URL',p.officialUrl,'n')}
+        </div>
+        <div class="edit-actions">
+          <button class="btn btn-green" onclick="saveNetPlanEdit(${i})">保存</button>
+          <button class="btn btn-outline" onclick="toggleNetEdit(${i})">閉じる</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function toggleNetEdit(i){document.getElementById(`neb-${i}`)?.classList.toggle('open');}
+function saveNetPlanEdit(i){
+  const g=k=>document.getElementById(`efn_${i}_${k}`)?.value||document.getElementById(`ef_${i}_${k}`)?.value;
+  const gb=k=>g(k)==='true';const gn=k=>parseFloat(g(k))||0;
+  netPlans[i]={...netPlans[i],brand:g('brand'),plan:g('plan'),speed:g('speed'),
+    priceDetached:gn('priceDetached'),priceApt:gn('priceApt'),lineType:g('lineType'),
+    setCarrier:g('setCarrier'),setDiscount:g('setDiscount'),hasSetDiscount:gb('hasSetDiscount'),
+    contractPeriod:g('contractPeriod'),areaNote:g('areaNote'),feature:g('feature'),
+    caution:g('caution'),officialUrl:g('officialUrl')};
+  saveNetPlans();renderNetAdminList();renderNetBrandSections();alert('保存しました。');
+}
+function deleteNetPlan(i){
+  if(!confirm(`「${netPlans[i].brand} ${netPlans[i].plan}」を削除しますか？`))return;
+  netPlans.splice(i,1);netPlans.forEach((p,j)=>p._idx=j);
+  saveNetPlans();renderNetAdminList();renderNetBrandSections();
+}
+function addNewNetPlan(){
+  const np={brand:'新しいサービス',plan:'新プラン',speed:'最大1Gbps',priceDetached:0,priceApt:0,lineType:'光コラボ',setCarrier:'なし',setDiscount:'なし',hasSetDiscount:false,contractPeriod:'—',areaNote:'全国',feature:'',caution:'',officialUrl:'',_idx:netPlans.length};
+  netPlans.push(np);saveNetPlans();renderNetAdminList();
+  setTimeout(()=>document.getElementById(`neb-${netPlans.length-1}`)?.classList.add('open'),100);
+}
+function resetNetToDefault(){
+  const pass=prompt('初期化のためパスワードを再入力してください：');
+  if(pass!==ADMIN_PASS){alert('パスワードが違います');return;}
+  if(!confirm('本当に初期データに戻しますか？'))return;
+  netPlans=DEFAULT_NET_PLANS.map((p,i)=>({...p,_idx:i}));
+  saveNetPlans();renderNetAdminList();renderNetBrandSections();alert('初期データに戻しました。');
+}
+
+// net用のef関数（IDが重複しないようにサフィックス付き）
+function ef(i,k,l,v,suffix=''){
+  const id=suffix?`ef${suffix}_${i}_${k}`:`ef_${i}_${k}`;
+  return`<div class="form-field"><label class="form-label">${l}</label><input class="form-input" id="${id}" value="${(v||'').toString().replace(/"/g,'&quot;')}"/></div>`;
+}
+function efn(i,k,l,v,suffix=''){
+  const id=suffix?`ef${suffix}_${i}_${k}`:`ef_${i}_${k}`;
+  return`<div class="form-field"><label class="form-label">${l}</label><input class="form-input" type="number" id="${id}" value="${v||0}"/></div>`;
+}
+function efs(i,k,l,v,opts,suffix=''){
+  const id=suffix?`ef${suffix}_${i}_${k}`:`ef_${i}_${k}`;
+  const o=opts.map(x=>{const[val,lbl]=x.split(':');return`<option value="${val}" ${String(v)===val?'selected':''}>${lbl}</option>`;}).join('');
+  return`<div class="form-field"><label class="form-label">${l}</label><select class="form-select" id="${id}">${o}</select></div>`;
+}
+
+// NET初期化
+loadNetPlans();
+renderNetBrandSections();
 const ps=document.createElement('style');
 ps.textContent=`@media print{header,nav,.nav-tabs,.overlay,.sidemenu,.card-hdr button,.btn,footer,.compare-bar,.filter-bar{display:none!important}.page-section{display:flex!important}.card{break-inside:avoid;box-shadow:none}}`;
 document.head.appendChild(ps);
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
-  });
-}
 </script>
 </body>
 </html>
